@@ -1,16 +1,17 @@
-apply plugin: 'com.android.application'
+apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion 28
     defaultConfig {
-        applicationId "com.lodz.android.mmsplayerdemo"
         minSdkVersion 19
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
+
     }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -21,11 +22,14 @@ android {
         abortOnError false
         checkReleaseBuilds false
     }
+
 }
 
 dependencies {
+    implementation 'androidx.annotation:annotation:1.0.0'
     implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.2.71'
-    implementation 'androidx.appcompat:appcompat:1.0.0'
 
-    implementation project(':mmsplayer')
+    // IJK播放器
+    implementation 'tv.danmaku.ijk.media:ijkplayer-java:0.8.8'
+    implementation 'tv.danmaku.ijk.media:ijkplayer-exo:0.8.8'
 }
