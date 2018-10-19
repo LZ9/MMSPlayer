@@ -1,0 +1,25 @@
+package com.lodz.android.mmsplayer.ijk.media;
+
+import android.view.View;
+import android.widget.MediaController;
+
+/**
+ * 控制器接口
+ * Created by zhouL on 2016/12/1.
+ */
+
+public interface IMediaController {
+    void hide();
+
+    boolean isShowing();
+
+    void setAnchorView(View view);
+
+    void setEnabled(boolean enabled);
+
+    void setMediaPlayer(MediaController.MediaPlayerControl player);
+
+    void show(int timeout);
+
+    void show();
+}
