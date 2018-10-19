@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">MMSPlayer</string>
+
+    <string name="main_simple_view">基础播放器界面</string>
+    <string name="main_widget_view">带控件播放器</string>
+    <string name="main_half_view">半屏播放</string>
+    <string name="main_develop">开发中</string>
+
+    <string name="simple_prepared">加载完毕</string>
+    <string name="simple_buffering_start">开始缓冲</string>
+    <string name="simple_buffering_end">开始结束</string>
+    <string name="simple_completion">播放结束</string>
+    <string name="simple_error">异常：%s</string>
+
 </resources>
