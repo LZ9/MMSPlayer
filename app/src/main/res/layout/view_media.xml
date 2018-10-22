@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    android:orientation="vertical">
+
+    <!-- 滑动回调控件 -->
+    <com.lodz.android.mmsplayerdemo.video.menu.SlideControlLayout
+        android:id="@+id/slide_control_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!-- 视频播放器 -->
+        <com.lodz.android.mmsplayer.impl.MmsVideoView
+            android:id="@+id/video_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </com.lodz.android.mmsplayer.impl.MmsVideoView>
+
+    </com.lodz.android.mmsplayerdemo.video.menu.SlideControlLayout>
+
+    <!-- 底部菜单 -->
+    <com.lodz.android.mmsplayerdemo.video.menu.VideoBottomMenuLayout
+        android:id="@+id/bottom_menu_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom">
+
+    </com.lodz.android.mmsplayerdemo.video.menu.VideoBottomMenuLayout>
+
+</FrameLayout>

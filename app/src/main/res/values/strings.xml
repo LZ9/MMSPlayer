@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">MMSPlayer</string>
 
+    <string name="network_no_connect">网络尚未连接，请检查您的网络状态</string>
+
     <string name="main_simple_view">基础播放器界面</string>
     <string name="main_widget_view">带控件播放器</string>
     <string name="main_half_view">半屏播放</string>
@@ -11,5 +13,7 @@
     <string name="simple_buffering_end">缓冲结束</string>
     <string name="simple_completion">播放结束</string>
     <string name="simple_error">异常：%s</string>
+
+    <string name="video_play_progress">%1$s / %2$s</string>
 
 </resources>

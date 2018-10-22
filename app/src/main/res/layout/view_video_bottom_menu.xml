@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:background="@color/color_a0191919"
+    android:gravity="center_vertical"
+    android:orientation="horizontal">
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent">
+
+        <!-- 播放按钮 -->
+        <ImageView
+            android:id="@+id/play_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/app_name"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:scaleType="center"
+            android:src="@android:drawable/ic_media_play"
+            android:visibility="visible" />
+
+        <!-- 暂停按钮 -->
+        <ImageView
+            android:id="@+id/pause_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/app_name"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:scaleType="center"
+            android:src="@android:drawable/ic_media_pause"
+            android:visibility="gone" />
+
+    </FrameLayout>
+
+    <!-- 进度条 -->
+    <SeekBar
+        android:id="@+id/seek_bar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:max="10000"
+        android:maxHeight="2dp"
+        android:progressDrawable="@drawable/seekbar_color_style"
+        android:thumb="@drawable/ic_seek_thumb" />
+
+    <!-- 进度时间 -->
+    <TextView
+        android:id="@+id/play_time_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:textColor="@color/white"
+        tools:text="00:00 / 00:00" />
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/setting_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/app_name"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:src="@drawable/selector_video_setting" />
+
+    </FrameLayout>
+
+
+</LinearLayout>
