@@ -8,7 +8,7 @@
 
     <string name="simple_prepared">加载完毕</string>
     <string name="simple_buffering_start">开始缓冲</string>
-    <string name="simple_buffering_end">开始结束</string>
+    <string name="simple_buffering_end">缓冲结束</string>
     <string name="simple_completion">播放结束</string>
     <string name="simple_error">异常：%s</string>
 
