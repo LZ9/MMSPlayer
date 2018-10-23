@@ -3,6 +3,7 @@ package com.lodz.android.mmsplayerdemo.widget
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.view.Window
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
@@ -10,6 +11,7 @@ import com.lodz.android.core.log.PrintLog
 import com.lodz.android.core.network.NetworkManager
 import com.lodz.android.core.utils.ToastUtils
 import com.lodz.android.mmsplayerdemo.R
+import com.lodz.android.mmsplayerdemo.video.status.VideoPhoneDataLayout
 import com.lodz.android.mmsplayerdemo.video.view.MediaView
 
 /**
@@ -30,10 +32,6 @@ class VideoActivity : AppCompatActivity() {
                 return
             }
 
-            if (!NetworkManager.get().isWifi()) {// 非wifi下提示用户
-                ToastUtils.showShort(context, R.string.network_cell_phone_data)
-            }
-
             val intent = Intent(context, VideoActivity::class.java)
             intent.putExtra(EXTRA_VIDEO_NAME, videoName)
             intent.putExtra(EXTRA_VIDEO_PATH, path)
@@ -43,6 +41,11 @@ class VideoActivity : AppCompatActivity() {
 
     private val mMediaView by lazy {
         findViewById<MediaView>(R.id.media_view)
+    }
+
+    /** 数据流量播放提示页 */
+    private val mVideoPhoneDataLayout by lazy {
+        findViewById<VideoPhoneDataLayout>(R.id.video_phone_data_layout)
     }
 
     /** 视频路径 */
@@ -57,15 +60,25 @@ class VideoActivity : AppCompatActivity() {
         setContentView(R.layout.activity_video)
         initMediaView()
         setListeners()
+        playVideo()
     }
 
     private fun setListeners() {
-        mMediaView.setListener(object :MediaView.Listener{
+        mMediaView.setListener(object : MediaView.Listener {
             override fun onClickBack() {
-                mMediaView.pause()
-                mMediaView.release()
                 finish()
             }
+        })
+
+        // 数据流量播放提示页关闭
+        mVideoPhoneDataLayout.setBackListener(View.OnClickListener {
+            finish()
+        })
+
+        // 数据流量播放提示页 流量播放
+        mVideoPhoneDataLayout.setDataPlayListener(View.OnClickListener {
+            mVideoPhoneDataLayout.hide()
+            mMediaView.start()
         })
     }
 
@@ -96,22 +109,36 @@ class VideoActivity : AppCompatActivity() {
         mMediaView.setVideoPath(mVideoPath)
     }
 
+    /** 播放视频 */
+    private fun playVideo() {
+        if (!NetworkManager.get().isWifi) {// 流量下
+            mVideoPhoneDataLayout.show()
+        } else {
+            mVideoPhoneDataLayout.hide()
+            mMediaView.start()
+        }
+
+    }
+
     override fun onPause() {
         super.onPause()
-        if (mMediaView.isPlaying()){
+        if (mMediaView.isPlaying()) {
             mMediaView.pause()
         }
     }
 
     override fun onResume() {
         super.onResume()
-        if (mMediaView.isPause()){
+        if (mMediaView.isPause()) {
             mMediaView.start()
         }
     }
 
     override fun finish() {
+        mMediaView.pause()
         mMediaView.release()
         super.finish()
     }
+
+
 }

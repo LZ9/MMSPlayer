@@ -2,7 +2,7 @@
     <string name="app_name">MMSPlayer</string>
 
     <string name="network_no_connect">网络尚未连接，请检查您的网络状态</string>
-    <string name="network_cell_phone_data">您正在使用流量观看</string>
+
 
     <string name="main_simple_view">基础播放器界面</string>
     <string name="main_widget_view">带控件播放器</string>
@@ -25,5 +25,6 @@
     <string name="video_loading_start_change_quality">正在为您切换画质…</string>
     <string name="video_retry">点击重试</string>
     <string name="video_analysis_error_tips">视频解析出现异常…</string>
-
+    <string name="video_phone_data_tips">正在使用非WIFI网络，播放将产生流量费用</string>
+    <string name="video_data_play">流量播放</string>
 </resources>

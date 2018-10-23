@@ -122,6 +122,11 @@ class VideoLoadingLayout : LinearLayout {
         bindData(context.getString(R.string.video_loading_start_change_quality))
     }
 
+    /** 显示解析异常 */
+    fun showAnalysisError() {
+        bindData(context.getString(R.string.video_analysis_error_tips))
+    }
+
     /** 显示换行 */
     fun showEnter() {
         bindData("")

@@ -56,6 +56,8 @@ class MediaView : FrameLayout {
     private var mActivity: Activity? = null
     /** 监听器 */
     private var mListener: Listener? = null
+    /** 是否播放 */
+    private var isPlay = false
 
     constructor(context: Context) : super(context)
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
@@ -74,6 +76,7 @@ class MediaView : FrameLayout {
         // 视频播放器
         mVideoPlayer.setListener(object : MmsVideoView.Listener {
             override fun onPrepared() {
+                isPlay = true
                 mVideoLoadingLayout.showAnalysisUrlComplete()
                 mBottomMenuLayout.initConfig(mVideoPlayer.currentPlayPosition, mVideoPlayer.videoDuration)
 
@@ -94,10 +97,11 @@ class MediaView : FrameLayout {
             }
 
             override fun onError(errorType: Int, msg: String?) {
-                if (mVideoErrorLayout.isShow()){// 如果播放错误页已经显示则不再重复处理
+                if (mVideoErrorLayout.isShow()) {// 如果播放错误页已经显示则不再重复处理
                     return
                 }
                 mVideoErrorLayout.show()
+                mVideoLoadingLayout.showAnalysisError()
                 mVideoLoadingLayout.hide()
             }
 
@@ -189,6 +193,8 @@ class MediaView : FrameLayout {
         mVideoErrorLayout.setRetryListener(OnClickListener {
             reload()
         })
+
+
     }
 
     private fun initData() {
@@ -238,7 +244,9 @@ class MediaView : FrameLayout {
 
     /** 释放资源 */
     fun release() {
-        mVideoPlayer.release()
+        if (isPlay){
+            mVideoPlayer.release()
+        }
     }
 
     fun setFullScreen(isFull: Boolean) {

@@ -11,4 +11,12 @@
 
     </com.lodz.android.mmsplayerdemo.video.view.MediaView>
 
+
+    <!-- 数据流量播放提示页 -->
+    <com.lodz.android.mmsplayerdemo.video.status.VideoPhoneDataLayout
+        android:id="@+id/video_phone_data_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </com.lodz.android.mmsplayerdemo.video.status.VideoPhoneDataLayout>
 </FrameLayout>
