@@ -23,5 +23,7 @@
     <string name="video_loading_start_analysis_url">开始解析视频地址…</string>
     <string name="video_loading_analysis_url_complete">解析视频地址… 【完成】</string>
     <string name="video_loading_start_change_quality">正在为您切换画质…</string>
+    <string name="video_retry">点击重试</string>
+    <string name="video_analysis_error_tips">视频解析出现异常…</string>
 
 </resources>

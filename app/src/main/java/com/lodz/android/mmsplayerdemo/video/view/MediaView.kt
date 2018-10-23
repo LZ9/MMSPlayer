@@ -17,6 +17,7 @@ import com.lodz.android.mmsplayerdemo.R
 import com.lodz.android.mmsplayerdemo.utils.sp.SpManager
 import com.lodz.android.mmsplayerdemo.video.menu.SlideControlLayout
 import com.lodz.android.mmsplayerdemo.video.menu.VideoBottomMenuLayout
+import com.lodz.android.mmsplayerdemo.video.status.VideoErrorLayout
 import com.lodz.android.mmsplayerdemo.video.status.VideoLoadingLayout
 
 /**
@@ -33,6 +34,10 @@ class MediaView : FrameLayout {
     /** 加载页面 */
     private val mVideoLoadingLayout by lazy {
         findViewById<VideoLoadingLayout>(R.id.video_loading_layout)
+    }
+    /** 加载失败页 */
+    private val mVideoErrorLayout by lazy {
+        findViewById<VideoErrorLayout>(R.id.video_error_layout)
     }
     /** 手势划动回调控件 */
     private val mSlideControlLayout by lazy {
@@ -66,6 +71,7 @@ class MediaView : FrameLayout {
 
     private fun setListeners() {
 
+        // 视频播放器
         mVideoPlayer.setListener(object : MmsVideoView.Listener {
             override fun onPrepared() {
                 mVideoLoadingLayout.showAnalysisUrlComplete()
@@ -88,11 +94,16 @@ class MediaView : FrameLayout {
             }
 
             override fun onError(errorType: Int, msg: String?) {
+                if (mVideoErrorLayout.isShow()){// 如果播放错误页已经显示则不再重复处理
+                    return
+                }
+                mVideoErrorLayout.show()
                 mVideoLoadingLayout.hide()
             }
 
         })
 
+        // 底部菜单
         mBottomMenuLayout.setListener(object : VideoBottomMenuLayout.Listener {
             override fun onClickPlay() {
                 start()
@@ -124,6 +135,7 @@ class MediaView : FrameLayout {
 
         })
 
+        // 手势划动回调控件
         mSlideControlLayout.setListener(object : SlideControlLayout.Listener {
             override fun onClick(view: View) {
             }
@@ -159,10 +171,23 @@ class MediaView : FrameLayout {
             }
         })
 
+        // 加载页面
         mVideoLoadingLayout.setBackListener(OnClickListener {
-            if (mListener != null){
+            if (mListener != null) {
                 mListener!!.onClickBack()
             }
+        })
+
+        // 加载失败关闭
+        mVideoErrorLayout.setBackListener(OnClickListener {
+            if (mListener != null) {
+                mListener!!.onClickBack()
+            }
+        })
+
+        // 加载失败重试
+        mVideoErrorLayout.setRetryListener(OnClickListener {
+            reload()
         })
     }
 
@@ -237,10 +262,11 @@ class MediaView : FrameLayout {
         mBottomMenuLayout.hideMenu()
     }
 
-    private fun reload(){
+    private fun reload() {
         mVideoLoadingLayout.show()
         mVideoLoadingLayout.showEnter()
         mVideoLoadingLayout.showStartAnalysisUrl()
+        mVideoErrorLayout.hide()
         resume()
     }
 

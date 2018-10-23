@@ -38,4 +38,13 @@
 
     </com.lodz.android.mmsplayerdemo.video.status.VideoLoadingLayout>
 
+    <!-- 播放失败页面 -->
+    <com.lodz.android.mmsplayerdemo.video.status.VideoErrorLayout
+        android:id="@+id/video_error_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+    </com.lodz.android.mmsplayerdemo.video.status.VideoErrorLayout>
+
 </FrameLayout>
