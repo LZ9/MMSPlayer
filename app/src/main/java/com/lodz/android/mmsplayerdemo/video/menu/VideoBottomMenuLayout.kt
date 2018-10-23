@@ -10,9 +10,9 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.SeekBar
 import android.widget.TextView
+import com.lodz.android.core.utils.AnimUtils
 import com.lodz.android.mmsplayer.ijk.utils.MediaInfoUtils
 import com.lodz.android.mmsplayerdemo.R
-import com.lodz.android.mmsplayerdemo.utils.AnimUtils
 import io.reactivex.Observable
 import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -60,9 +60,7 @@ class VideoBottomMenuLayout : LinearLayout {
     constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs)
     constructor(context: Context?, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    constructor(context: Context?, attrs: AttributeSet?, defStyleAttr: Int, defStyleRes: Int) : super(
-        context, attrs, defStyleAttr, defStyleRes
-    )
+    constructor(context: Context?, attrs: AttributeSet?, defStyleAttr: Int, defStyleRes: Int) : super(context, attrs, defStyleAttr, defStyleRes)
 
     init {
         LayoutInflater.from(context).inflate(R.layout.view_video_bottom_menu, this)
@@ -145,7 +143,7 @@ class VideoBottomMenuLayout : LinearLayout {
     }
 
     /** 菜单是否显示 */
-    fun isMenuShow() = visibility == View.VISIBLE
+    fun isMenuShow(): Boolean = visibility == View.VISIBLE
 
     /** 显示菜单 */
     fun showMenu() {
@@ -197,9 +195,9 @@ class VideoBottomMenuLayout : LinearLayout {
         }
 
         Observable.interval(0, 500, TimeUnit.MILLISECONDS)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(mUpdateProgressObserver!!)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(mUpdateProgressObserver!!)
     }
 
     /** 停止进度更新 */
@@ -246,11 +244,7 @@ class VideoBottomMenuLayout : LinearLayout {
 
     /** 设置播放时间，当前进度时间戳[current]，总进度时间戳[duration] */
     private fun setPlayTime(current: Long, duration: Long) {
-        mPlayTimeTv.text = context.getString(
-            R.string.video_play_progress,
-            MediaInfoUtils.buildTimeMilli(current),
-            MediaInfoUtils.buildTimeMilli(duration)
-        )
+        mPlayTimeTv.text = context.getString(R.string.video_play_progress, MediaInfoUtils.buildTimeMilli(current), MediaInfoUtils.buildTimeMilli(duration))
     }
 
     /** 把进度条进度[progress]转换为播放进度，[max]为进度条总大小 */

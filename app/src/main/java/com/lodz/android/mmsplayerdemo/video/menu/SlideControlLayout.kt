@@ -9,7 +9,7 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
 import android.widget.FrameLayout
-import com.lodz.android.mmsplayerdemo.utils.ScreenUtils
+import com.lodz.android.core.utils.ScreenUtils
 
 /**
  * 滑动控制控件
@@ -53,9 +53,7 @@ class SlideControlLayout : FrameLayout {
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int, defStyleRes: Int) : super(
-        context, attrs, defStyleAttr, defStyleRes
-    )
+    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int, defStyleRes: Int) : super(context, attrs, defStyleAttr, defStyleRes)
 
     init {
         initScreenSize()
@@ -109,8 +107,7 @@ class SlideControlLayout : FrameLayout {
 
         var deltaX = event.rawX - mLastPoint.x
         var deltaY = mLastPoint.y - event.rawY
-        val enoughDistanceToAdjust = Math.abs(deltaX) > MIN_DISTANCE_TO_ADJUST
-                || Math.abs(deltaY) > MIN_DISTANCE_TO_ADJUST
+        val enoughDistanceToAdjust = Math.abs(deltaX) > MIN_DISTANCE_TO_ADJUST || Math.abs(deltaY) > MIN_DISTANCE_TO_ADJUST
         deltaX = deltaX / mScreenWidth
         deltaY = deltaY / mScreenHeight
 
@@ -182,8 +179,7 @@ class SlideControlLayout : FrameLayout {
     private fun getAdjustMode(event: MotionEvent): Int {
         val deltaX = event.rawX - mStartPoint.x
         val deltaY = mStartPoint.y - event.rawY
-        val enoughDistanceToAdjust = Math.abs(deltaX) > MIN_DISTANCE_TO_ADJUST
-                || Math.abs(deltaY) > MIN_DISTANCE_TO_ADJUST
+        val enoughDistanceToAdjust = Math.abs(deltaX) > MIN_DISTANCE_TO_ADJUST || Math.abs(deltaY) > MIN_DISTANCE_TO_ADJUST
         if (!enoughDistanceToAdjust) {
             return ADJUST_MODE_NONE
         }
@@ -202,12 +198,12 @@ class SlideControlLayout : FrameLayout {
         }
     }
 
-    private fun getMoveOrentation(deltaX: Float, deltaY: Float) =
-        if (Math.abs(deltaX) > Math.abs(deltaY)) {
-            MOVE_ORENTATION_HORIZONTAL
-        } else {
-            MOVE_ORENTATION_VERTICAL
-        }
+    private fun getMoveOrentation(deltaX: Float, deltaY: Float): Int =
+            if (Math.abs(deltaX) > Math.abs(deltaY)) {
+                MOVE_ORENTATION_HORIZONTAL
+            } else {
+                MOVE_ORENTATION_VERTICAL
+            }
 
     private fun getStartArea(event: MotionEvent): Int {
         val x = event.rawX

@@ -2,6 +2,7 @@
     <string name="app_name">MMSPlayer</string>
 
     <string name="network_no_connect">网络尚未连接，请检查您的网络状态</string>
+    <string name="network_cell_phone_data">您正在使用流量观看</string>
 
     <string name="main_simple_view">基础播放器界面</string>
     <string name="main_widget_view">带控件播放器</string>
@@ -14,6 +15,13 @@
     <string name="simple_completion">播放结束</string>
     <string name="simple_error">异常：%s</string>
 
+    <string name="video_parameter_error">播放参数异常，请稍后再试</string>
     <string name="video_play_progress">%1$s / %2$s</string>
+    <string name="video_loading_player_init_complete">初始化播放器… 【完成】</string>
+    <string name="video_loading_player_view_complete">初始化播放组件… 【完成】</string>
+    <string name="video_loading_load_url_complete">加载视频地址… 【完成】</string>
+    <string name="video_loading_start_analysis_url">开始解析视频地址…</string>
+    <string name="video_loading_analysis_url_complete">解析视频地址… 【完成】</string>
+    <string name="video_loading_start_change_quality">正在为您切换画质…</string>
 
 </resources>

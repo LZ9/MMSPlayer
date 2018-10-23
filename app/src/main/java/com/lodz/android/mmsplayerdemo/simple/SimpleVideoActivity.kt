@@ -3,8 +3,8 @@ package com.lodz.android.mmsplayerdemo.simple
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.lodz.android.core.utils.ToastUtils
 import com.lodz.android.mmsplayer.contract.IVideoPlayer
 import com.lodz.android.mmsplayer.impl.MmsVideoView
 import com.lodz.android.mmsplayerdemo.R
@@ -32,23 +32,23 @@ class SimpleVideoActivity : AppCompatActivity() {
 
         mVideoPlayer.setListener(object : MmsVideoView.Listener{
             override fun onPrepared() {
-                Toast.makeText(applicationContext, R.string.simple_prepared, Toast.LENGTH_SHORT).show()
+                ToastUtils.showShort(applicationContext, R.string.simple_prepared)
             }
 
             override fun onBufferingStart() {
-                Toast.makeText(applicationContext, R.string.simple_buffering_start, Toast.LENGTH_SHORT).show()
+                ToastUtils.showShort(applicationContext, R.string.simple_buffering_start)
             }
 
             override fun onBufferingEnd() {
-                Toast.makeText(applicationContext, R.string.simple_buffering_end, Toast.LENGTH_SHORT).show()
+                ToastUtils.showShort(applicationContext, R.string.simple_buffering_end)
             }
 
             override fun onCompletion() {
-                Toast.makeText(applicationContext, R.string.simple_completion, Toast.LENGTH_SHORT).show()
+                ToastUtils.showShort(applicationContext, R.string.simple_completion)
             }
 
             override fun onError(errorType: Int, msg: String?) {
-                Toast.makeText(applicationContext, getString(R.string.simple_error, msg), Toast.LENGTH_SHORT).show()
+                ToastUtils.showShort(applicationContext, R.string.simple_error)
             }
 
         })

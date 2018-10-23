@@ -3,10 +3,12 @@ package com.lodz.android.mmsplayerdemo.video.view
 import android.annotation.TargetApi
 import android.app.Activity
 import android.content.Context
+import android.content.pm.ActivityInfo
 import android.os.Build
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.OnClickListener
 import android.widget.FrameLayout
 import android.widget.SeekBar
 import com.lodz.android.mmsplayer.contract.IVideoPlayer
@@ -15,6 +17,7 @@ import com.lodz.android.mmsplayerdemo.R
 import com.lodz.android.mmsplayerdemo.utils.sp.SpManager
 import com.lodz.android.mmsplayerdemo.video.menu.SlideControlLayout
 import com.lodz.android.mmsplayerdemo.video.menu.VideoBottomMenuLayout
+import com.lodz.android.mmsplayerdemo.video.status.VideoLoadingLayout
 
 /**
  * 带控制器的播放控件
@@ -26,6 +29,11 @@ class MediaView : FrameLayout {
         const val TAG = "MediaView"
     }
 
+
+    /** 加载页面 */
+    private val mVideoLoadingLayout by lazy {
+        findViewById<VideoLoadingLayout>(R.id.video_loading_layout)
+    }
     /** 手势划动回调控件 */
     private val mSlideControlLayout by lazy {
         findViewById<SlideControlLayout>(R.id.slide_control_layout)
@@ -39,17 +47,16 @@ class MediaView : FrameLayout {
         findViewById<VideoBottomMenuLayout>(R.id.bottom_menu_layout)
     }
 
+    /** Activity */
     private var mActivity: Activity? = null
-    /** 是否能播放 */
-    private var isPlay = false
+    /** 监听器 */
+    private var mListener: Listener? = null
 
     constructor(context: Context) : super(context)
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int, defStyleRes: Int) : super(
-            context, attrs, defStyleAttr, defStyleRes
-    )
+    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int, defStyleRes: Int) : super(context, attrs, defStyleAttr, defStyleRes)
 
     init {
         LayoutInflater.from(context).inflate(R.layout.view_media, this)
@@ -61,7 +68,11 @@ class MediaView : FrameLayout {
 
         mVideoPlayer.setListener(object : MmsVideoView.Listener {
             override fun onPrepared() {
+                mVideoLoadingLayout.showAnalysisUrlComplete()
                 mBottomMenuLayout.initConfig(mVideoPlayer.currentPlayPosition, mVideoPlayer.videoDuration)
+
+
+                mVideoLoadingLayout.hide()
             }
 
             override fun onBufferingStart() {
@@ -77,6 +88,7 @@ class MediaView : FrameLayout {
             }
 
             override fun onError(errorType: Int, msg: String?) {
+                mVideoLoadingLayout.hide()
             }
 
         })
@@ -98,7 +110,7 @@ class MediaView : FrameLayout {
 
             override fun onSeekChangedFromUser(position: Long, duration: Long) {
                 mVideoPlayer.seekTo(position)
-                if (mVideoPlayer.isPause || mVideoPlayer.isCompleted){
+                if (mVideoPlayer.isPause || mVideoPlayer.isCompleted) {
                     start()
                 }
             }
@@ -146,6 +158,12 @@ class MediaView : FrameLayout {
                 }
             }
         })
+
+        mVideoLoadingLayout.setBackListener(OnClickListener {
+            if (mListener != null){
+                mListener!!.onClickBack()
+            }
+        })
     }
 
     private fun initData() {
@@ -156,11 +174,20 @@ class MediaView : FrameLayout {
     /** 初始化MediaView */
     fun initMediaView(activity: Activity) {
         mActivity = activity
+        mVideoLoadingLayout.show()
+        mVideoLoadingLayout.showPlayerComplete()
+    }
+
+    /** 设置视频名称[videoName] */
+    fun setTitle(videoName: String) {
+
     }
 
     /** 设置播放路径[path] */
     fun setVideoPath(path: String) {
         mVideoPlayer.setVideoPath(path)
+        mVideoLoadingLayout.showLoadUrlComplete()
+        mVideoLoadingLayout.showStartAnalysisUrl()
     }
 
     /** 是否暂停 */
@@ -170,7 +197,7 @@ class MediaView : FrameLayout {
     fun isPlaying() = mVideoPlayer.isPlaying
 
     /** 开始播放 */
-    fun start(){
+    fun start() {
         mVideoPlayer.start()
     }
 
@@ -189,16 +216,35 @@ class MediaView : FrameLayout {
         mVideoPlayer.release()
     }
 
+    fun setFullScreen(isFull: Boolean) {
+        mSlideControlLayout.setScreenSize(isFull, ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE)
+    }
+
+    fun setListener(listener: Listener) {
+        mListener = listener
+    }
+
     /** 菜单是否显示 */
     private fun isMenuShow() = mBottomMenuLayout.isMenuShow()
 
     /** 显示菜单 */
-    private fun showMenu(){
+    private fun showMenu() {
         mBottomMenuLayout.showMenu()
     }
 
     /** 隐藏菜单 */
-    private fun hideMenu(){
+    private fun hideMenu() {
         mBottomMenuLayout.hideMenu()
+    }
+
+    private fun reload(){
+        mVideoLoadingLayout.show()
+        mVideoLoadingLayout.showEnter()
+        mVideoLoadingLayout.showStartAnalysisUrl()
+        resume()
+    }
+
+    interface Listener {
+        fun onClickBack()
     }
 }
