@@ -5,8 +5,8 @@
     android:background="@color/black">
 
     <ProgressBar
-        android:layout_width="126dp"
-        android:layout_height="90dp"
+        android:layout_width="75dp"
+        android:layout_height="54dp"
         android:layout_gravity="center"
         android:indeterminate="false"
         android:indeterminateDrawable="@drawable/progress_video_loading_animation" />
@@ -16,9 +16,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|start"
-        android:layout_marginStart="25dp"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="70dp"
-        android:layout_marginBottom="12dp">
+        android:layout_marginBottom="10dp">
 
     </androidx.recyclerview.widget.RecyclerView>
 

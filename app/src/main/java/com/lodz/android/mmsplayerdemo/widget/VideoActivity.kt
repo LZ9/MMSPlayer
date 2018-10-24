@@ -6,7 +6,13 @@ import android.os.Bundle
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
+import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentPagerAdapter
+import androidx.viewpager.widget.ViewPager
+import com.google.android.material.tabs.TabLayout
 import com.lodz.android.core.log.PrintLog
 import com.lodz.android.core.network.NetworkManager
 import com.lodz.android.core.utils.ToastUtils
@@ -39,14 +45,31 @@ class VideoActivity : AppCompatActivity() {
         }
     }
 
+    /** tab栏目名称 */
+    private val TAB_NAMES = arrayOf("简介", "评论")
+
+    /** 播放器 */
     private val mMediaView by lazy {
         findViewById<MediaView>(R.id.media_view)
     }
-
     /** 数据流量播放提示页 */
     private val mVideoPhoneDataLayout by lazy {
         findViewById<VideoPhoneDataLayout>(R.id.video_phone_data_layout)
     }
+    /** TabLayout */
+    private val mTabLayout by lazy {
+        findViewById<TabLayout>(R.id.tab_layout)
+    }
+    /** ViewPager */
+    private val mViewPager by lazy {
+        findViewById<ViewPager>(R.id.view_pager)
+    }
+    /** 返回按钮 */
+    private val mBackBtn by lazy {
+        findViewById<ImageView>(R.id.back_btn)
+    }
+
+
 
     /** 视频路径 */
     private lateinit var mVideoPath: String
@@ -61,6 +84,8 @@ class VideoActivity : AppCompatActivity() {
         initMediaView()
         setListeners()
         playVideo()
+        initViewPager()
+        mBackBtn.bringToFront()
     }
 
     private fun setListeners() {
@@ -78,8 +103,13 @@ class VideoActivity : AppCompatActivity() {
         // 数据流量播放提示页 流量播放
         mVideoPhoneDataLayout.setDataPlayListener(View.OnClickListener {
             mVideoPhoneDataLayout.hide()
-            mMediaView.start()
+            mMediaView.showLoading()
+            mMediaView.reload()
         })
+
+        mBackBtn.setOnClickListener {
+            finish()
+        }
     }
 
     /** 获取播放参数 */
@@ -92,21 +122,29 @@ class VideoActivity : AppCompatActivity() {
         mVideoPath = intent.getStringExtra(EXTRA_VIDEO_PATH)
         mVideoName = intent.getStringExtra(EXTRA_VIDEO_NAME)
 
-        PrintLog.i(MediaView.TAG, "VideoName : $mVideoName")
+        PrintLog.e(MediaView.TAG, "VideoName : $mVideoName")
         PrintLog.e(MediaView.TAG, "VideoPath : $mVideoPath")
     }
 
+    /** 初始化ViewPager */
+    private fun initViewPager() {
+        mViewPager.offscreenPageLimit = TAB_NAMES.size
+        mViewPager.adapter = TabAdapter(supportFragmentManager)
+        mTabLayout.setupWithViewPager(mViewPager)
+    }
+
     /** 设置全屏无状态栏 */
-    fun setFullWindow() {
+    private fun setFullWindow() {
         requestWindowFeature(Window.FEATURE_NO_TITLE)  //取消标题
         window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)  //取消状态栏
     }
 
-    fun initMediaView() {
+    private fun initMediaView() {
         mMediaView.initMediaView(this)
         mMediaView.setTitle(mVideoName)
-        mMediaView.setFullScreen(true)
+        mMediaView.setFullScreen(false)
         mMediaView.setVideoPath(mVideoPath)
+        mVideoPhoneDataLayout.needBackBtn(false)
     }
 
     /** 播放视频 */
@@ -141,4 +179,16 @@ class VideoActivity : AppCompatActivity() {
     }
 
 
+    private inner class TabAdapter(fragmentManager: FragmentManager) : FragmentPagerAdapter(fragmentManager) {
+        override fun getItem(position: Int): Fragment  = when(position){
+            0 -> InfoFragment.newInstance()
+            1 -> CommentFragment.newInstance()
+            else -> InfoFragment.newInstance()
+        }
+
+        override fun getCount(): Int = TAB_NAMES.size
+
+        override fun getPageTitle(position: Int): CharSequence? = TAB_NAMES[position]
+
+    }
 }

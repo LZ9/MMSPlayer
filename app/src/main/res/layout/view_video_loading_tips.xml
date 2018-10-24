@@ -11,10 +11,9 @@
         android:layout_height="wrap_content"
         android:ellipsize="end"
         android:maxLines="1"
-        android:paddingStart="5dp"
         android:paddingTop="5dp"
-        android:paddingEnd="5dp"
         android:textColor="@color/white"
+        android:textSize="13sp"
         android:textStyle="bold"
         tools:text="弹幕装填中" />
 

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:background="@color/color_a0191919"
+    android:orientation="horizontal">
+
+    <ImageView
+        android:id="@+id/back_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:contentDescription="@string/app_name"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:src="@drawable/component_selector_btn_back" />
+
+    <!-- 标题 -->
+    <TextView
+        android:id="@+id/title_tv"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:ellipsize="end"
+        android:gravity="center_vertical"
+        android:maxLines="1"
+        android:paddingStart="5dp"
+        android:paddingEnd="10dp"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        tools:text="阿斯顿全文啊实打实的色彩不持续性差" />
+
+    <LinearLayout
+        android:id="@+id/info_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <!-- 时间 -->
+        <TextView
+            android:id="@+id/time_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/color_d9d9d9"
+            android:textSize="14sp"
+            tools:text="09:40" />
+
+        <!-- 网络类型 -->
+        <TextView
+            android:id="@+id/network_type_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:textColor="@color/color_d9d9d9"
+            android:textSize="14sp"
+            tools:text="wifi" />
+
+        <!-- 电量状态 -->
+        <ImageView
+            android:id="@+id/battery_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/ic_battery_10" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <!-- 画质 -->
+        <ImageView
+            android:id="@+id/quality_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/app_name"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:src="@drawable/component_ic_launcher"
+            android:visibility="gone" />
+
+    </LinearLayout>
+
+
+</LinearLayout>

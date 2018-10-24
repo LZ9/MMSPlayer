@@ -14,8 +14,8 @@
         android:orientation="vertical">
 
         <ImageView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="75dp"
+            android:layout_height="54dp"
             android:layout_gravity="center"
             android:contentDescription="@string/app_name"
             android:src="@drawable/ic_video_error" />

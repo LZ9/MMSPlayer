@@ -10,15 +10,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.View.OnClickListener
 import android.widget.FrameLayout
-import android.widget.SeekBar
 import com.lodz.android.mmsplayer.contract.IVideoPlayer
 import com.lodz.android.mmsplayer.impl.MmsVideoView
 import com.lodz.android.mmsplayerdemo.R
 import com.lodz.android.mmsplayerdemo.utils.sp.SpManager
 import com.lodz.android.mmsplayerdemo.video.menu.SlideControlLayout
-import com.lodz.android.mmsplayerdemo.video.menu.VideoBottomMenuLayout
+import com.lodz.android.mmsplayerdemo.video.menu.VideoTopMenuLayout
 import com.lodz.android.mmsplayerdemo.video.status.VideoErrorLayout
 import com.lodz.android.mmsplayerdemo.video.status.VideoLoadingLayout
+import io.reactivex.Observable
+import io.reactivex.Observer
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
+import java.util.concurrent.TimeUnit
 
 /**
  * 带控制器的播放控件
@@ -29,7 +34,6 @@ class MediaView : FrameLayout {
     companion object {
         const val TAG = "MediaView"
     }
-
 
     /** 加载页面 */
     private val mVideoLoadingLayout by lazy {
@@ -47,10 +51,14 @@ class MediaView : FrameLayout {
     private val mVideoPlayer: IVideoPlayer by lazy {
         findViewById<MmsVideoView>(R.id.video_view)
     }
-    /** 底部菜单 */
-    private val mBottomMenuLayout by lazy {
-        findViewById<VideoBottomMenuLayout>(R.id.bottom_menu_layout)
+    /** 顶部菜单 */
+    private val mVideoTopMenuLayout by lazy {
+        findViewById<VideoTopMenuLayout>(R.id.top_menu_layout)
     }
+//    /** 底部菜单 */
+//    private val mBottomMenuLayout by lazy {
+//        findViewById<VideoBottomMenuLayout>(R.id.bottom_menu_layout)
+//    }
 
     /** Activity */
     private var mActivity: Activity? = null
@@ -58,6 +66,10 @@ class MediaView : FrameLayout {
     private var mListener: Listener? = null
     /** 是否播放 */
     private var isPlay = false
+    /** 自动隐藏菜单观察者 */
+    private var mAutoHideMenuObserver: Observer<Long>? = null
+    /** 订阅者 */
+    private var mDisposable: Disposable? = null
 
     constructor(context: Context) : super(context)
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
@@ -78,7 +90,7 @@ class MediaView : FrameLayout {
             override fun onPrepared() {
                 isPlay = true
                 mVideoLoadingLayout.showAnalysisUrlComplete()
-                mBottomMenuLayout.initConfig(mVideoPlayer.currentPlayPosition, mVideoPlayer.videoDuration)
+//                mBottomMenuLayout.initConfig(mVideoPlayer.currentPlayPosition, mVideoPlayer.videoDuration)
 
 
                 mVideoLoadingLayout.hide()
@@ -91,9 +103,9 @@ class MediaView : FrameLayout {
             }
 
             override fun onCompletion() {
-                mBottomMenuLayout.showPauseStatus()
-                mBottomMenuLayout.stopUpdateProgress()
-                mBottomMenuLayout.setPlayCompletion()
+//                mBottomMenuLayout.showPauseStatus()
+//                mBottomMenuLayout.stopUpdateProgress()
+//                mBottomMenuLayout.setPlayCompletion()
             }
 
             override fun onError(errorType: Int, msg: String?) {
@@ -107,37 +119,44 @@ class MediaView : FrameLayout {
 
         })
 
-        // 底部菜单
-        mBottomMenuLayout.setListener(object : VideoBottomMenuLayout.Listener {
-            override fun onClickPlay() {
-                start()
+        // 顶部菜单
+        mVideoTopMenuLayout.setBackListener(OnClickListener {
+            if (mListener != null) {
+                mListener!!.onClickBack()
             }
-
-            override fun onClickPause() {
-                pause()
-            }
-
-            override fun onClickSetting() {
-            }
-
-            override fun onStartTrackingTouch(seekBar: SeekBar) {
-            }
-
-            override fun onSeekChangedFromUser(position: Long, duration: Long) {
-                mVideoPlayer.seekTo(position)
-                if (mVideoPlayer.isPause || mVideoPlayer.isCompleted) {
-                    start()
-                }
-            }
-
-            override fun onStopTrackingTouch(seekBar: SeekBar) {
-            }
-
-            override fun getBufferPercentage(): Long = mVideoPlayer.bufferPercentage.toLong()
-
-            override fun getCurrentPlayPosition(): Long = mVideoPlayer.currentPlayPosition
-
         })
+
+        // 底部菜单
+//        mBottomMenuLayout.setListener(object : VideoBottomMenuLayout.Listener {
+//            override fun onClickPlay() {
+//                start()
+//            }
+//
+//            override fun onClickPause() {
+//                pause()
+//            }
+//
+//            override fun onClickSetting() {
+//            }
+//
+//            override fun onStartTrackingTouch(seekBar: SeekBar) {
+//            }
+//
+//            override fun onSeekChangedFromUser(position: Long, duration: Long) {
+//                mVideoPlayer.seekTo(position)
+//                if (mVideoPlayer.isPause || mVideoPlayer.isCompleted) {
+//                    start()
+//                }
+//            }
+//
+//            override fun onStopTrackingTouch(seekBar: SeekBar) {
+//            }
+//
+//            override fun getBufferPercentage(): Long = mVideoPlayer.bufferPercentage.toLong()
+//
+//            override fun getCurrentPlayPosition(): Long = mVideoPlayer.currentPlayPosition
+//
+//        })
 
         // 手势划动回调控件
         mSlideControlLayout.setListener(object : SlideControlLayout.Listener {
@@ -209,9 +228,15 @@ class MediaView : FrameLayout {
         mVideoLoadingLayout.showPlayerComplete()
     }
 
+    /** 显示加载页 */
+    fun showLoading(){
+        mVideoLoadingLayout.show()
+        mVideoErrorLayout.hide()
+    }
+
     /** 设置视频名称[videoName] */
     fun setTitle(videoName: String) {
-
+        mVideoTopMenuLayout.setTitle(videoName)
     }
 
     /** 设置播放路径[path] */
@@ -242,15 +267,26 @@ class MediaView : FrameLayout {
         mVideoPlayer.resume()
     }
 
+    fun reload() {
+        mVideoLoadingLayout.show()
+        mVideoLoadingLayout.showEnter()
+        mVideoLoadingLayout.showStartAnalysisUrl()
+        mVideoErrorLayout.hide()
+        resume()
+    }
+
     /** 释放资源 */
     fun release() {
-        if (isPlay){
+        if (isPlay) {
             mVideoPlayer.release()
         }
+        mVideoTopMenuLayout.release()
     }
 
     fun setFullScreen(isFull: Boolean) {
-        mSlideControlLayout.setScreenSize(isFull, ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE)
+        mSlideControlLayout.setScreenSize(isFull, ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
+        mVideoTopMenuLayout.visibility = if (isFull) View.VISIBLE else View.GONE
+        mVideoTopMenuLayout.setFullScreen(isFull)
     }
 
     fun setListener(listener: Listener) {
@@ -258,24 +294,53 @@ class MediaView : FrameLayout {
     }
 
     /** 菜单是否显示 */
-    private fun isMenuShow() = mBottomMenuLayout.isMenuShow()
+    private fun isMenuShow() = mVideoTopMenuLayout.isShow()
 
     /** 显示菜单 */
     private fun showMenu() {
-        mBottomMenuLayout.showMenu()
+        mVideoTopMenuLayout.show()
     }
 
     /** 隐藏菜单 */
     private fun hideMenu() {
-        mBottomMenuLayout.hideMenu()
+        mVideoTopMenuLayout.show()
     }
 
-    private fun reload() {
-        mVideoLoadingLayout.show()
-        mVideoLoadingLayout.showEnter()
-        mVideoLoadingLayout.showStartAnalysisUrl()
-        mVideoErrorLayout.hide()
-        resume()
+    /** 更新自动隐藏菜单 */
+    private fun updateAutoHideMenu(){
+        stopAutoHideMenu()
+        mAutoHideMenuObserver = object :Observer<Long>{
+            override fun onSubscribe(d: Disposable) {
+                mDisposable = d
+            }
+
+            override fun onNext(t: Long) {
+                hideMenu()
+            }
+
+            override fun onError(e: Throwable) {
+                e.printStackTrace()
+            }
+
+            override fun onComplete() {
+            }
+        }
+
+        Observable.interval(5, 5, TimeUnit.SECONDS)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(mAutoHideMenuObserver!!)
+    }
+
+    /** 停止自动隐藏菜单 */
+    private fun stopAutoHideMenu(){
+        if (mAutoHideMenuObserver != null) {
+            if (mDisposable != null) {
+                mDisposable!!.dispose()
+                mDisposable = null
+            }
+            mAutoHideMenuObserver = null
+        }
     }
 
     interface Listener {

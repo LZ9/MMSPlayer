@@ -21,6 +21,15 @@
 
     </com.lodz.android.mmsplayerdemo.video.menu.SlideControlLayout>
 
+    <!-- 顶部菜单 -->
+    <com.lodz.android.mmsplayerdemo.video.menu.VideoTopMenuLayout
+        android:id="@+id/top_menu_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top">
+
+    </com.lodz.android.mmsplayerdemo.video.menu.VideoTopMenuLayout>
+
     <!-- 底部菜单 -->
     <com.lodz.android.mmsplayerdemo.video.menu.VideoBottomMenuLayout
         android:id="@+id/bottom_menu_layout"

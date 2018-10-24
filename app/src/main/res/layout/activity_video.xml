@@ -1,22 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.lodz.android.mmsplayerdemo.video.view.MediaView
-        android:id="@+id/media_view"
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp">
+
+        <ImageView
+            android:id="@+id/back_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/app_name"
+            android:padding="20dp"
+            android:src="@drawable/component_selector_btn_back" />
+
+        <com.lodz.android.mmsplayerdemo.video.view.MediaView
+            android:id="@+id/media_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </com.lodz.android.mmsplayerdemo.video.view.MediaView>
+
+        <!-- 数据流量播放提示页 -->
+        <com.lodz.android.mmsplayerdemo.video.status.VideoPhoneDataLayout
+            android:id="@+id/video_phone_data_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone">
+
+        </com.lodz.android.mmsplayerdemo.video.status.VideoPhoneDataLayout>
+
+    </FrameLayout>
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tab_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:tabIndicatorColor="@color/colorPrimary"
+        app:tabIndicatorHeight="2dp"
+        app:tabMode="fixed"
+        app:tabSelectedTextColor="@color/colorPrimary"
+        app:tabTextColor="@color/colorPrimary" />
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/view_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    </com.lodz.android.mmsplayerdemo.video.view.MediaView>
-
-
-    <!-- 数据流量播放提示页 -->
-    <com.lodz.android.mmsplayerdemo.video.status.VideoPhoneDataLayout
-        android:id="@+id/video_phone_data_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-    </com.lodz.android.mmsplayerdemo.video.status.VideoPhoneDataLayout>
-</FrameLayout>
+    </androidx.viewpager.widget.ViewPager>
+</LinearLayout>

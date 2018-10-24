@@ -57,6 +57,11 @@ class VideoPhoneDataLayout : LinearLayout {
         }
     }
 
+    /** 是否需要返回按钮[isNeed] */
+    fun needBackBtn(isNeed: Boolean) {
+        mBackBtn.visibility = if (isNeed) View.VISIBLE else View.GONE
+    }
+
     /** 设置返回按钮监听器 */
     fun setBackListener(listener: View.OnClickListener) {
         mBackListener = listener
