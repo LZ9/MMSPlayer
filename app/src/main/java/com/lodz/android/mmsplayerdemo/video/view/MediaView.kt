@@ -16,6 +16,7 @@ import com.lodz.android.mmsplayer.contract.IVideoPlayer
 import com.lodz.android.mmsplayer.impl.MmsVideoView
 import com.lodz.android.mmsplayerdemo.R
 import com.lodz.android.mmsplayerdemo.utils.sp.SpManager
+import com.lodz.android.mmsplayerdemo.video.assist.VideoAdjustProgressLayout
 import com.lodz.android.mmsplayerdemo.video.menu.SlideControlLayout
 import com.lodz.android.mmsplayerdemo.video.menu.VideoBottomMenuLayout
 import com.lodz.android.mmsplayerdemo.video.menu.VideoTopMenuLayout
@@ -62,6 +63,11 @@ class MediaView : FrameLayout {
     private val mBottomMenuLayout by lazy {
         findViewById<VideoBottomMenuLayout>(R.id.bottom_menu_layout)
     }
+    /** 进度调整页面 */
+    private val mAdjustProgressLayout by lazy {
+        findViewById<VideoAdjustProgressLayout>(R.id.adjust_progress_lyout)
+    }
+
 
     /** Activity */
     private var mActivity: Activity? = null
@@ -204,12 +210,18 @@ class MediaView : FrameLayout {
             }
 
             override fun onStartSlideHorizontal() {
+                mAdjustProgressLayout.setDuration(mVideoPlayer.videoDuration)
+                mAdjustProgressLayout.setCurrent(mVideoPlayer.currentPlayPosition)
+                mAdjustProgressLayout.show()
             }
 
             override fun onSlidingHorizontal(delta: Float) {
+                mAdjustProgressLayout.updateProgress(delta)
             }
 
             override fun onEndSlideHorizontal() {
+                mAdjustProgressLayout.hide()
+                mVideoPlayer.seekTo(mAdjustProgressLayout.getCurrent())
                 if (mVideoPlayer.isPause || mVideoPlayer.isCompleted) {
                     start()
                 }

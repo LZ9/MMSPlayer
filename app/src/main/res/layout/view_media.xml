@@ -39,6 +39,14 @@
 
     </com.lodz.android.mmsplayerdemo.video.menu.VideoBottomMenuLayout>
 
+    <!-- 进度调整 -->
+    <com.lodz.android.mmsplayerdemo.video.assist.VideoAdjustProgressLayout
+        android:id="@+id/adjust_progress_lyout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone" />
+
     <!-- 加载页面 -->
     <com.lodz.android.mmsplayerdemo.video.status.VideoLoadingLayout
         android:id="@+id/video_loading_layout"
