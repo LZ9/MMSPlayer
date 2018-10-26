@@ -11,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.View.OnClickListener
 import android.widget.FrameLayout
+import android.widget.ProgressBar
 import android.widget.SeekBar
 import com.lodz.android.mmsplayer.contract.IVideoPlayer
 import com.lodz.android.mmsplayer.impl.MmsVideoView
@@ -67,6 +68,10 @@ class MediaView : FrameLayout {
     private val mAdjustProgressLayout by lazy {
         findViewById<VideoAdjustProgressLayout>(R.id.adjust_progress_lyout)
     }
+    /** 加载框 */
+    private val mmBufferProgressBar by lazy {
+        findViewById<ProgressBar>(R.id.buffer_progress_bar)
+    }
 
 
     /** Activity */
@@ -113,9 +118,11 @@ class MediaView : FrameLayout {
             }
 
             override fun onBufferingStart() {
+                mmBufferProgressBar.visibility = View.VISIBLE
             }
 
             override fun onBufferingEnd() {
+                mmBufferProgressBar.visibility = View.GONE
             }
 
             override fun onCompletion() {
