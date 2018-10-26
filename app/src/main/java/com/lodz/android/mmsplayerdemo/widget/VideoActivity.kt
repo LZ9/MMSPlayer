@@ -2,10 +2,13 @@ package com.lodz.android.mmsplayerdemo.widget
 
 import android.content.Context
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
 import android.view.Window
 import android.view.WindowManager
+import android.widget.FrameLayout
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -15,6 +18,7 @@ import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
 import com.lodz.android.core.log.PrintLog
 import com.lodz.android.core.network.NetworkManager
+import com.lodz.android.core.utils.DensityUtils
 import com.lodz.android.core.utils.ToastUtils
 import com.lodz.android.mmsplayerdemo.R
 import com.lodz.android.mmsplayerdemo.video.status.VideoPhoneDataLayout
@@ -45,9 +49,18 @@ class VideoActivity : AppCompatActivity() {
         }
     }
 
+
     /** tab栏目名称 */
     private val TAB_NAMES = arrayOf("简介", "评论")
 
+    /** 返回按钮 */
+    private val mBackBtn by lazy {
+        findViewById<ImageView>(R.id.back_btn)
+    }
+    /** 播放器布局 */
+    private val mVideoLayout by lazy {
+        findViewById<ViewGroup>(R.id.video_layout)
+    }
     /** 播放器 */
     private val mMediaView by lazy {
         findViewById<MediaView>(R.id.media_view)
@@ -64,11 +77,6 @@ class VideoActivity : AppCompatActivity() {
     private val mViewPager by lazy {
         findViewById<ViewPager>(R.id.view_pager)
     }
-    /** 返回按钮 */
-    private val mBackBtn by lazy {
-        findViewById<ImageView>(R.id.back_btn)
-    }
-
 
 
     /** 视频路径 */
@@ -90,8 +98,16 @@ class VideoActivity : AppCompatActivity() {
 
     private fun setListeners() {
         mMediaView.setListener(object : MediaView.Listener {
+            override fun onScreenChange(isFull: Boolean) {
+                changeOrientation(isFull)
+            }
+
             override fun onClickBack() {
-                finish()
+                if (requestedOrientation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {// 全屏时转半屏
+                    changeOrientation(false)
+                } else if (requestedOrientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {//半屏退出
+                    finish()
+                }
             }
         })
 
@@ -147,6 +163,16 @@ class VideoActivity : AppCompatActivity() {
         mVideoPhoneDataLayout.needBackBtn(false)
     }
 
+    /** 改变屏幕方向，是否横屏[isLandscape] */
+    private fun changeOrientation(isLandscape: Boolean) {
+        mMediaView.setFullScreen(isLandscape)
+        val lp = mVideoLayout.layoutParams
+        lp.height = if (isLandscape) FrameLayout.LayoutParams.MATCH_PARENT else DensityUtils.dp2px(applicationContext, 200f)
+        mVideoLayout.layoutParams = lp
+        requestedOrientation = if (isLandscape) ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE else ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+        mBackBtn.visibility = if (isLandscape) View.GONE else View.VISIBLE
+    }
+
     /** 播放视频 */
     private fun playVideo() {
         if (!NetworkManager.get().isWifi) {// 流量下
@@ -155,7 +181,6 @@ class VideoActivity : AppCompatActivity() {
             mVideoPhoneDataLayout.hide()
             mMediaView.start()
         }
-
     }
 
     override fun onPause() {
@@ -180,7 +205,7 @@ class VideoActivity : AppCompatActivity() {
 
 
     private inner class TabAdapter(fragmentManager: FragmentManager) : FragmentPagerAdapter(fragmentManager) {
-        override fun getItem(position: Int): Fragment  = when(position){
+        override fun getItem(position: Int): Fragment = when (position) {
             0 -> InfoFragment.newInstance()
             1 -> CommentFragment.newInstance()
             else -> InfoFragment.newInstance()

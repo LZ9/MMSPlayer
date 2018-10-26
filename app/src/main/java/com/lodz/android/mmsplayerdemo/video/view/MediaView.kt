@@ -10,11 +10,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.View.OnClickListener
 import android.widget.FrameLayout
+import android.widget.SeekBar
 import com.lodz.android.mmsplayer.contract.IVideoPlayer
 import com.lodz.android.mmsplayer.impl.MmsVideoView
 import com.lodz.android.mmsplayerdemo.R
 import com.lodz.android.mmsplayerdemo.utils.sp.SpManager
 import com.lodz.android.mmsplayerdemo.video.menu.SlideControlLayout
+import com.lodz.android.mmsplayerdemo.video.menu.VideoBottomMenuLayout
 import com.lodz.android.mmsplayerdemo.video.menu.VideoTopMenuLayout
 import com.lodz.android.mmsplayerdemo.video.status.VideoErrorLayout
 import com.lodz.android.mmsplayerdemo.video.status.VideoLoadingLayout
@@ -55,10 +57,10 @@ class MediaView : FrameLayout {
     private val mVideoTopMenuLayout by lazy {
         findViewById<VideoTopMenuLayout>(R.id.top_menu_layout)
     }
-//    /** 底部菜单 */
-//    private val mBottomMenuLayout by lazy {
-//        findViewById<VideoBottomMenuLayout>(R.id.bottom_menu_layout)
-//    }
+    /** 底部菜单 */
+    private val mBottomMenuLayout by lazy {
+        findViewById<VideoBottomMenuLayout>(R.id.bottom_menu_layout)
+    }
 
     /** Activity */
     private var mActivity: Activity? = null
@@ -70,12 +72,19 @@ class MediaView : FrameLayout {
     private var mAutoHideMenuObserver: Observer<Long>? = null
     /** 订阅者 */
     private var mDisposable: Disposable? = null
+    /** 是否全屏 */
+    private var isFullScreen = false
 
     constructor(context: Context) : super(context)
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int, defStyleRes: Int) : super(context, attrs, defStyleAttr, defStyleRes)
+    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int, defStyleRes: Int) : super(
+        context,
+        attrs,
+        defStyleAttr,
+        defStyleRes
+    )
 
     init {
         LayoutInflater.from(context).inflate(R.layout.view_media, this)
@@ -90,8 +99,8 @@ class MediaView : FrameLayout {
             override fun onPrepared() {
                 isPlay = true
                 mVideoLoadingLayout.showAnalysisUrlComplete()
-//                mBottomMenuLayout.initConfig(mVideoPlayer.currentPlayPosition, mVideoPlayer.videoDuration)
-
+                mBottomMenuLayout.init(mVideoPlayer.currentPlayPosition, mVideoPlayer.videoDuration)
+                mSlideControlLayout.isCanUse = true
 
                 mVideoLoadingLayout.hide()
             }
@@ -103,9 +112,9 @@ class MediaView : FrameLayout {
             }
 
             override fun onCompletion() {
-//                mBottomMenuLayout.showPauseStatus()
-//                mBottomMenuLayout.stopUpdateProgress()
-//                mBottomMenuLayout.setPlayCompletion()
+                mBottomMenuLayout.showPauseStatus()
+                mBottomMenuLayout.stopUpdateProgress()
+                mBottomMenuLayout.setPlayCompletion()
             }
 
             override fun onError(errorType: Int, msg: String?) {
@@ -127,40 +136,50 @@ class MediaView : FrameLayout {
         })
 
         // 底部菜单
-//        mBottomMenuLayout.setListener(object : VideoBottomMenuLayout.Listener {
-//            override fun onClickPlay() {
-//                start()
-//            }
-//
-//            override fun onClickPause() {
-//                pause()
-//            }
-//
-//            override fun onClickSetting() {
-//            }
-//
-//            override fun onStartTrackingTouch(seekBar: SeekBar) {
-//            }
-//
-//            override fun onSeekChangedFromUser(position: Long, duration: Long) {
-//                mVideoPlayer.seekTo(position)
-//                if (mVideoPlayer.isPause || mVideoPlayer.isCompleted) {
-//                    start()
-//                }
-//            }
-//
-//            override fun onStopTrackingTouch(seekBar: SeekBar) {
-//            }
-//
-//            override fun getBufferPercentage(): Long = mVideoPlayer.bufferPercentage.toLong()
-//
-//            override fun getCurrentPlayPosition(): Long = mVideoPlayer.currentPlayPosition
-//
-//        })
+        mBottomMenuLayout.setListener(object : VideoBottomMenuLayout.Listener {
+            override fun onClickPlay() {
+                start()
+            }
+
+            override fun onClickPause() {
+                pause()
+            }
+
+            override fun onClickScreen() {
+                if (mListener != null) {
+                    mListener!!.onScreenChange(!isFullScreen)
+                }
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar) {
+
+            }
+
+            override fun onSeekChangedFromUser(position: Long, duration: Long) {
+                mVideoPlayer.seekTo(position)
+                if (mVideoPlayer.isPause || mVideoPlayer.isCompleted) {
+                    start()
+                }
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar) {
+
+            }
+
+            override fun getBufferPercentage(): Long = mVideoPlayer.bufferPercentage.toLong()
+
+            override fun getCurrentPlayPosition(): Long = mVideoPlayer.currentPlayPosition
+
+        })
 
         // 手势划动回调控件
         mSlideControlLayout.setListener(object : SlideControlLayout.Listener {
             override fun onClick(view: View) {
+                if (isMenuShow()){
+                    hideMenu()
+                }else{
+                    showMenu()
+                }
             }
 
             override fun onStartSlideLeftZone() {
@@ -229,7 +248,7 @@ class MediaView : FrameLayout {
     }
 
     /** 显示加载页 */
-    fun showLoading(){
+    fun showLoading() {
         mVideoLoadingLayout.show()
         mVideoErrorLayout.hide()
     }
@@ -255,16 +274,22 @@ class MediaView : FrameLayout {
     /** 开始播放 */
     fun start() {
         mVideoPlayer.start()
+        mBottomMenuLayout.showPlayStatus()
+        mBottomMenuLayout.startUpdateProgress()
     }
 
     /** 暂停 */
     fun pause() {
         mVideoPlayer.pause()
+        mBottomMenuLayout.showPauseStatus()
+        mBottomMenuLayout.stopUpdateProgress()
     }
 
     /** 重头播放 */
     fun resume() {
         mVideoPlayer.resume()
+        mBottomMenuLayout.showPlayStatus()
+        mBottomMenuLayout.startUpdateProgress()
     }
 
     fun reload() {
@@ -281,12 +306,17 @@ class MediaView : FrameLayout {
             mVideoPlayer.release()
         }
         mVideoTopMenuLayout.release()
+        mBottomMenuLayout.stopUpdateProgress()
     }
 
     fun setFullScreen(isFull: Boolean) {
+        isFullScreen = isFull
         mSlideControlLayout.setScreenSize(isFull, ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
         mVideoTopMenuLayout.visibility = if (isFull) View.VISIBLE else View.GONE
         mVideoTopMenuLayout.setFullScreen(isFull)
+        mBottomMenuLayout.setFullScreen(isFull)
+        mVideoErrorLayout.setFullScreen(isFull)
+        mVideoLoadingLayout.setFullScreen(isFull)
     }
 
     fun setListener(listener: Listener) {
@@ -294,22 +324,28 @@ class MediaView : FrameLayout {
     }
 
     /** 菜单是否显示 */
-    private fun isMenuShow() = mVideoTopMenuLayout.isShow()
+    private fun isMenuShow() = mVideoTopMenuLayout.isShow() || mBottomMenuLayout.isShow()
 
     /** 显示菜单 */
     private fun showMenu() {
-        mVideoTopMenuLayout.show()
+        if (isFullScreen){
+            mVideoTopMenuLayout.show()
+        }
+        mBottomMenuLayout.show()
     }
 
     /** 隐藏菜单 */
     private fun hideMenu() {
-        mVideoTopMenuLayout.show()
+        if (isFullScreen){
+            mVideoTopMenuLayout.hide()
+        }
+        mBottomMenuLayout.hide()
     }
 
     /** 更新自动隐藏菜单 */
-    private fun updateAutoHideMenu(){
+    private fun updateAutoHideMenu() {
         stopAutoHideMenu()
-        mAutoHideMenuObserver = object :Observer<Long>{
+        mAutoHideMenuObserver = object : Observer<Long> {
             override fun onSubscribe(d: Disposable) {
                 mDisposable = d
             }
@@ -327,13 +363,13 @@ class MediaView : FrameLayout {
         }
 
         Observable.interval(5, 5, TimeUnit.SECONDS)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(mAutoHideMenuObserver!!)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(mAutoHideMenuObserver!!)
     }
 
     /** 停止自动隐藏菜单 */
-    private fun stopAutoHideMenu(){
+    private fun stopAutoHideMenu() {
         if (mAutoHideMenuObserver != null) {
             if (mDisposable != null) {
                 mDisposable!!.dispose()
@@ -344,6 +380,10 @@ class MediaView : FrameLayout {
     }
 
     interface Listener {
+        /** 点击返回按钮 */
         fun onClickBack()
+
+        /** 屏幕变化 */
+        fun onScreenChange(isFull: Boolean)
     }
 }

@@ -6,6 +6,7 @@
     android:orientation="vertical">
 
     <FrameLayout
+        android:id="@+id/video_layout"
         android:layout_width="match_parent"
         android:layout_height="200dp">
 
@@ -14,7 +15,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:contentDescription="@string/app_name"
-            android:padding="20dp"
+            android:padding="15dp"
             android:src="@drawable/component_selector_btn_back" />
 
         <com.lodz.android.mmsplayerdemo.video.view.MediaView

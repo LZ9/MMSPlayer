@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="60dp"
+    android:layout_height="40dp"
     android:background="@color/color_a0191919"
     android:gravity="center_vertical"
     android:orientation="horizontal">
@@ -17,11 +17,11 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:contentDescription="@string/app_name"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
+            android:paddingLeft="3dp"
+            android:paddingRight="3dp"
             android:scaleType="center"
-            android:src="@android:drawable/ic_media_play"
-            android:visibility="visible" />
+            android:src="@drawable/selector_video_play"
+            android:visibility="gone" />
 
         <!-- 暂停按钮 -->
         <ImageView
@@ -29,11 +29,11 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:contentDescription="@string/app_name"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
+            android:paddingLeft="3dp"
+            android:paddingRight="3dp"
             android:scaleType="center"
-            android:src="@android:drawable/ic_media_pause"
-            android:visibility="gone" />
+            android:src="@drawable/selector_video_pause"
+            android:visibility="visible" />
 
     </FrameLayout>
 
@@ -55,6 +55,7 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:textColor="@color/white"
+        android:textSize="14sp"
         tools:text="00:00 / 00:00" />
 
     <FrameLayout
@@ -62,13 +63,13 @@
         android:layout_height="match_parent">
 
         <ImageView
-            android:id="@+id/setting_btn"
-            android:layout_width="wrap_content"
+            android:id="@+id/screen_btn"
+            android:layout_width="40dp"
             android:layout_height="match_parent"
             android:contentDescription="@string/app_name"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:src="@drawable/selector_video_setting" />
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:src="@drawable/selector_video_screen" />
 
     </FrameLayout>
 

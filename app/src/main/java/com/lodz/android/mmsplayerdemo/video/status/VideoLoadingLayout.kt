@@ -131,4 +131,9 @@ class VideoLoadingLayout : LinearLayout {
     fun showEnter() {
         bindData("")
     }
+
+    /** 设置是否全屏[isFull] */
+    fun setFullScreen(isFull: Boolean) {
+        mBackBtn.visibility = if (isFull) View.VISIBLE else View.GONE
+    }
 }

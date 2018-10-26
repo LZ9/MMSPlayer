@@ -4,6 +4,7 @@ import android.annotation.TargetApi
 import android.content.Context
 import android.os.Build
 import android.util.AttributeSet
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
@@ -13,6 +14,7 @@ import android.widget.TextView
 import com.lodz.android.core.utils.AnimUtils
 import com.lodz.android.mmsplayer.ijk.utils.MediaInfoUtils
 import com.lodz.android.mmsplayerdemo.R
+import com.lodz.android.mmsplayerdemo.video.view.MediaView
 import io.reactivex.Observable
 import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -42,9 +44,9 @@ class VideoBottomMenuLayout : LinearLayout {
     private val mPlayTimeTv by lazy {
         findViewById<TextView>(R.id.play_time_tv)
     }
-    /** 设置按钮 */
-    private val mSettingBtn by lazy {
-        findViewById<ImageView>(R.id.setting_btn)
+    /** 缩放按钮 */
+    private val mScreenBtn by lazy {
+        findViewById<ImageView>(R.id.screen_btn)
     }
 
     /** 监听器 */
@@ -55,6 +57,8 @@ class VideoBottomMenuLayout : LinearLayout {
     private var mDisposable: Disposable? = null
     /** 总进度时间戳 */
     private var mDuration: Long = 0
+    /** 是否全屏模式 */
+    private var isFullScreen = false
 
     constructor(context: Context?) : super(context)
     constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs)
@@ -68,6 +72,7 @@ class VideoBottomMenuLayout : LinearLayout {
     }
 
     private fun setListeners() {
+
         mPlayBtn.setOnClickListener {
             showPlayStatus() //进入播放状态
             if (mListener != null) {
@@ -92,6 +97,7 @@ class VideoBottomMenuLayout : LinearLayout {
                     if (mListener != null) {
                         mListener!!.onSeekChangedFromUser(position, mDuration)
                     }
+                    Log.d(MediaView.TAG, "总进度：$mDuration      拖动进度：$position")
                 }
                 setPlayTime(position, mDuration)
             }
@@ -109,18 +115,24 @@ class VideoBottomMenuLayout : LinearLayout {
             }
         })
 
-        mSettingBtn.setOnClickListener {
+        // 屏幕缩放
+        mScreenBtn.setOnClickListener {
             if (mListener != null) {
-                mListener!!.onClickSetting()
+                mListener!!.onClickScreen()
             }
         }
     }
 
     /** 初始化配置，当前进度时间戳[current]，总进度时间戳[duration] */
-    fun initConfig(current: Long, duration: Long) {
+    fun init(current: Long, duration: Long) {
         mDuration = duration
         setPlayTime(current, duration)
         setProgress(current)
+    }
+
+    /** 设置是否全屏[isFull] */
+    fun setFullScreen(isFull: Boolean) {
+        isFullScreen = isFull
     }
 
     /** 设置当前进度时间戳[current] */
@@ -143,19 +155,19 @@ class VideoBottomMenuLayout : LinearLayout {
     }
 
     /** 菜单是否显示 */
-    fun isMenuShow(): Boolean = visibility == View.VISIBLE
+    fun isShow(): Boolean = visibility == View.VISIBLE
 
     /** 显示菜单 */
-    fun showMenu() {
-        if (!isMenuShow()) {
-            AnimUtils.startAnim(context, this, R.anim.anim_bottom_in, View.VISIBLE)
+    fun show() {
+        if (!isShow()) {
+            AnimUtils.startAnim(context, this, if (isFullScreen) R.anim.anim_bottom_in else R.anim.anim_fade_in, View.VISIBLE)
         }
     }
 
     /** 隐藏菜单 */
-    fun hideMenu() {
-        if (isMenuShow()) {
-            AnimUtils.startAnim(context, this, R.anim.anim_bottom_out, View.VISIBLE)
+    fun hide() {
+        if (isShow()) {
+            AnimUtils.startAnim(context, this, if (isFullScreen) R.anim.anim_bottom_out else R.anim.anim_fade_out, View.GONE)
         }
     }
 
@@ -198,6 +210,7 @@ class VideoBottomMenuLayout : LinearLayout {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(mUpdateProgressObserver!!)
+        Log.d(MediaView.TAG, "开始更新进度")
     }
 
     /** 停止进度更新 */
@@ -208,6 +221,7 @@ class VideoBottomMenuLayout : LinearLayout {
                 mDisposable = null
             }
             mUpdateProgressObserver = null
+            Log.d(MediaView.TAG, "停止更新进度")
         }
     }
 
@@ -266,8 +280,8 @@ class VideoBottomMenuLayout : LinearLayout {
         /** 点击暂停按钮 */
         fun onClickPause()
 
-        /** 点击设置按钮 */
-        fun onClickSetting()
+        /** 点击缩放按钮 */
+        fun onClickScreen()
 
         /** 开始调整进度条 */
         fun onStartTrackingTouch(seekBar: SeekBar)

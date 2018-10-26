@@ -33,7 +33,6 @@ class VideoErrorLayout : LinearLayout {
     /** 重试按钮监听器 */
     private var mRetryListener: View.OnClickListener? = null
 
-
     constructor(context: Context?) : super(context)
     constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs)
     constructor(context: Context?, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
@@ -84,5 +83,10 @@ class VideoErrorLayout : LinearLayout {
         if (isShow()) {
             visibility = View.GONE
         }
+    }
+
+    /** 设置是否全屏[isFull] */
+    fun setFullScreen(isFull: Boolean) {
+        mBackBtn.visibility = if (isFull) View.VISIBLE else View.GONE
     }
 }

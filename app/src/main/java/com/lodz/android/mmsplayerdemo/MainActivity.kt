@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         mWidgetBtn.setOnClickListener {
-            VideoActivity.start(this, getString(R.string.main_widget_view), "http://9890.vod.myqcloud.com/9890_4e292f9a3dd011e6b4078980237cc3d3.f20.mp4")
+            VideoActivity.start(this, "深圳市绿色低碳科技促进会", "http://9890.vod.myqcloud.com/9890_4e292f9a3dd011e6b4078980237cc3d3.f20.mp4")
         }
 
         mHalfBtn.setOnClickListener {
