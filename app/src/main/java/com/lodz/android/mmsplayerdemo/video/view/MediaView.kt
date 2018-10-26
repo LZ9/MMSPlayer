@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.pm.ActivityInfo
 import android.os.Build
 import android.util.AttributeSet
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.OnClickListener
@@ -98,10 +99,10 @@ class MediaView : FrameLayout {
         mVideoPlayer.setListener(object : MmsVideoView.Listener {
             override fun onPrepared() {
                 isPlay = true
+                showMenu()
                 mVideoLoadingLayout.showAnalysisUrlComplete()
                 mBottomMenuLayout.init(mVideoPlayer.currentPlayPosition, mVideoPlayer.videoDuration)
                 mSlideControlLayout.isCanUse = true
-
                 mVideoLoadingLayout.hide()
             }
 
@@ -139,10 +140,12 @@ class MediaView : FrameLayout {
         mBottomMenuLayout.setListener(object : VideoBottomMenuLayout.Listener {
             override fun onClickPlay() {
                 start()
+                updateAutoHideMenu()
             }
 
             override fun onClickPause() {
                 pause()
+                stopAutoHideMenu()
             }
 
             override fun onClickScreen() {
@@ -152,7 +155,7 @@ class MediaView : FrameLayout {
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar) {
-
+                stopAutoHideMenu()
             }
 
             override fun onSeekChangedFromUser(position: Long, duration: Long) {
@@ -163,7 +166,7 @@ class MediaView : FrameLayout {
             }
 
             override fun onStopTrackingTouch(seekBar: SeekBar) {
-
+                updateAutoHideMenu()
             }
 
             override fun getBufferPercentage(): Long = mVideoPlayer.bufferPercentage.toLong()
@@ -231,8 +234,6 @@ class MediaView : FrameLayout {
         mVideoErrorLayout.setRetryListener(OnClickListener {
             reload()
         })
-
-
     }
 
     private fun initData() {
@@ -305,6 +306,7 @@ class MediaView : FrameLayout {
         if (isPlay) {
             mVideoPlayer.release()
         }
+        stopAutoHideMenu()
         mVideoTopMenuLayout.release()
         mBottomMenuLayout.stopUpdateProgress()
     }
@@ -332,6 +334,7 @@ class MediaView : FrameLayout {
             mVideoTopMenuLayout.show()
         }
         mBottomMenuLayout.show()
+        updateAutoHideMenu()
     }
 
     /** 隐藏菜单 */
@@ -344,6 +347,9 @@ class MediaView : FrameLayout {
 
     /** 更新自动隐藏菜单 */
     private fun updateAutoHideMenu() {
+        if (mVideoPlayer.isPause()) {// 暂停状态下不启用
+            return
+        }
         stopAutoHideMenu()
         mAutoHideMenuObserver = object : Observer<Long> {
             override fun onSubscribe(d: Disposable) {
@@ -352,6 +358,7 @@ class MediaView : FrameLayout {
 
             override fun onNext(t: Long) {
                 hideMenu()
+                stopAutoHideMenu()
             }
 
             override fun onError(e: Throwable) {
@@ -366,6 +373,7 @@ class MediaView : FrameLayout {
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(mAutoHideMenuObserver!!)
+        Log.v(MediaView.TAG, "开始自动隐藏菜单")
     }
 
     /** 停止自动隐藏菜单 */
@@ -376,6 +384,7 @@ class MediaView : FrameLayout {
                 mDisposable = null
             }
             mAutoHideMenuObserver = null
+            Log.v(MediaView.TAG, "停止自动隐藏菜单")
         }
     }
 

@@ -203,7 +203,6 @@ class VideoActivity : AppCompatActivity() {
         super.finish()
     }
 
-
     private inner class TabAdapter(fragmentManager: FragmentManager) : FragmentPagerAdapter(fragmentManager) {
         override fun getItem(position: Int): Fragment = when (position) {
             0 -> InfoFragment.newInstance()
