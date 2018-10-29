@@ -18,6 +18,7 @@ import com.lodz.android.mmsplayer.impl.MmsVideoView
 import com.lodz.android.mmsplayerdemo.R
 import com.lodz.android.mmsplayerdemo.utils.sp.SpManager
 import com.lodz.android.mmsplayerdemo.video.assist.VideoAdjustProgressLayout
+import com.lodz.android.mmsplayerdemo.video.assist.VideoBrightnessLayout
 import com.lodz.android.mmsplayerdemo.video.menu.SlideControlLayout
 import com.lodz.android.mmsplayerdemo.video.menu.VideoBottomMenuLayout
 import com.lodz.android.mmsplayerdemo.video.menu.VideoTopMenuLayout
@@ -72,6 +73,11 @@ class MediaView : FrameLayout {
     private val mmBufferProgressBar by lazy {
         findViewById<ProgressBar>(R.id.buffer_progress_bar)
     }
+    /** 亮度页面 */
+    private val mVideoBrightnessLayout by lazy {
+        findViewById<VideoBrightnessLayout>(R.id.video_brightness_layout)
+    }
+
 
 
     /** Activity */
@@ -199,12 +205,17 @@ class MediaView : FrameLayout {
             }
 
             override fun onStartSlideLeftZone() {
+                mVideoBrightnessLayout.show()
             }
 
             override fun onSlidingLeftZone(delta: Float) {
+                if (mActivity != null) {
+                    mVideoBrightnessLayout.updateBrightness(mActivity!!, delta)
+                }
             }
 
             override fun onEndSlideLeftZone() {
+                mVideoBrightnessLayout.hide()
             }
 
             override fun onStartSlideRightZone() {

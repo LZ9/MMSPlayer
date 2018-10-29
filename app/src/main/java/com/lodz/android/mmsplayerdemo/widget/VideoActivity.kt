@@ -96,6 +96,10 @@ class VideoActivity : AppCompatActivity() {
         mBackBtn.bringToFront()
     }
 
+    override fun onBackPressed() {
+        quit()
+    }
+
     private fun setListeners() {
         mMediaView.setListener(object : MediaView.Listener {
             override fun onScreenChange(isFull: Boolean) {
@@ -103,11 +107,7 @@ class VideoActivity : AppCompatActivity() {
             }
 
             override fun onClickBack() {
-                if (requestedOrientation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {// 全屏时转半屏
-                    changeOrientation(false)
-                } else if (requestedOrientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {//半屏退出
-                    finish()
-                }
+                quit()
             }
         })
 
@@ -201,6 +201,15 @@ class VideoActivity : AppCompatActivity() {
         mMediaView.pause()
         mMediaView.release()
         super.finish()
+    }
+
+    /** 退出 */
+    private fun quit(){
+        if (requestedOrientation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {// 全屏时转半屏
+            changeOrientation(false)
+        } else if (requestedOrientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {//半屏退出
+            finish()
+        }
     }
 
     private inner class TabAdapter(fragmentManager: FragmentManager) : FragmentPagerAdapter(fragmentManager) {
