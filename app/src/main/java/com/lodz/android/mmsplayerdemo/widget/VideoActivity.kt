@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
@@ -16,7 +17,6 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
-import com.lodz.android.core.log.PrintLog
 import com.lodz.android.core.network.NetworkManager
 import com.lodz.android.core.utils.DensityUtils
 import com.lodz.android.core.utils.ToastUtils
@@ -86,7 +86,7 @@ class VideoActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setFullWindow()
+        configWindow()
         getParameter(intent)
         setContentView(R.layout.activity_video)
         initMediaView()
@@ -138,8 +138,8 @@ class VideoActivity : AppCompatActivity() {
         mVideoPath = intent.getStringExtra(EXTRA_VIDEO_PATH)
         mVideoName = intent.getStringExtra(EXTRA_VIDEO_NAME)
 
-        PrintLog.e(MediaView.TAG, "VideoName : $mVideoName")
-        PrintLog.e(MediaView.TAG, "VideoPath : $mVideoPath")
+        Log.e(MediaView.TAG, "VideoName : $mVideoName")
+        Log.e(MediaView.TAG, "VideoPath : $mVideoPath")
     }
 
     /** 初始化ViewPager */
@@ -150,9 +150,10 @@ class VideoActivity : AppCompatActivity() {
     }
 
     /** 设置全屏无状态栏 */
-    private fun setFullWindow() {
+    private fun configWindow() {
         requestWindowFeature(Window.FEATURE_NO_TITLE)  //取消标题
         window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)  //取消状态栏
+        window.setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)  //屏幕常亮
     }
 
     private fun initMediaView() {

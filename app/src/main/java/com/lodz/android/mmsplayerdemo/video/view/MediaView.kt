@@ -83,7 +83,6 @@ class MediaView : FrameLayout {
         findViewById<VideoVolumeLayout>(R.id.video_volume_layout)
     }
 
-
     /** Activity */
     private var mActivity: Activity? = null
     /** 监听器 */
@@ -96,6 +95,8 @@ class MediaView : FrameLayout {
     private var mDisposable: Disposable? = null
     /** 是否全屏 */
     private var isFullScreen = false
+    /** 播放中断时的播放进度 */
+    private var mBreakPosition = 0L
 
     constructor(context: Context) : super(context)
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
@@ -125,29 +126,37 @@ class MediaView : FrameLayout {
                 mBottomMenuLayout.init(mVideoPlayer.currentPlayPosition, mVideoPlayer.videoDuration)
                 mSlideControlLayout.isCanUse = true
                 mVideoLoadingLayout.hide()
+                Log.v(MediaView.TAG, "播放器 ---> onPrepared")
             }
 
             override fun onBufferingStart() {
                 mmBufferProgressBar.visibility = View.VISIBLE
+                Log.v(MediaView.TAG, "播放器 ---> 开始缓冲")
             }
 
             override fun onBufferingEnd() {
                 mmBufferProgressBar.visibility = View.GONE
+                Log.v(MediaView.TAG, "播放器 ---> 结束缓冲")
             }
 
             override fun onCompletion() {
                 mBottomMenuLayout.showPauseStatus()
                 mBottomMenuLayout.stopUpdateProgress()
                 mBottomMenuLayout.setPlayCompletion()
+                Log.v(MediaView.TAG, "播放器 ---> 播放结束")
             }
 
             override fun onError(errorType: Int, msg: String?) {
                 if (mVideoErrorLayout.isShow()) {// 如果播放错误页已经显示则不再重复处理
                     return
                 }
+                mSlideControlLayout.isCanUse = false
+                mBottomMenuLayout.stopUpdateProgress()
                 mVideoErrorLayout.show()
                 mVideoLoadingLayout.showAnalysisError()
                 mVideoLoadingLayout.hide()
+                mBreakPosition = mVideoPlayer.breakPosition
+                Log.v(MediaView.TAG, "播放器 ---> 中断进度：$mBreakPosition   播放异常：$msg")
             }
 
         })
@@ -316,6 +325,7 @@ class MediaView : FrameLayout {
         mVideoPlayer.start()
         mBottomMenuLayout.showPlayStatus()
         mBottomMenuLayout.startUpdateProgress()
+        Log.v(MediaView.TAG, "开始播放")
     }
 
     /** 暂停 */
@@ -323,6 +333,7 @@ class MediaView : FrameLayout {
         mVideoPlayer.pause()
         mBottomMenuLayout.showPauseStatus()
         mBottomMenuLayout.stopUpdateProgress()
+        Log.v(MediaView.TAG, "暂停")
     }
 
     /** 重头播放 */
@@ -330,13 +341,18 @@ class MediaView : FrameLayout {
         mVideoPlayer.resume()
         mBottomMenuLayout.showPlayStatus()
         mBottomMenuLayout.startUpdateProgress()
+        Log.v(MediaView.TAG, "重播")
     }
 
+    /** 重载 */
     fun reload() {
         mVideoLoadingLayout.show()
         mVideoLoadingLayout.showEnter()
         mVideoLoadingLayout.showStartAnalysisUrl()
         mVideoErrorLayout.hide()
+        if (mBreakPosition > 0) {
+            mVideoPlayer.seekTo(mBreakPosition)
+        }
         resume()
     }
 
@@ -348,8 +364,10 @@ class MediaView : FrameLayout {
         stopAutoHideMenu()
         mVideoTopMenuLayout.release()
         mBottomMenuLayout.stopUpdateProgress()
+        Log.v(MediaView.TAG, "释放资源")
     }
 
+    /** 设置是否全屏[isFull] */
     fun setFullScreen(isFull: Boolean) {
         isFullScreen = isFull
         mSlideControlLayout.setScreenSize(isFull, ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
