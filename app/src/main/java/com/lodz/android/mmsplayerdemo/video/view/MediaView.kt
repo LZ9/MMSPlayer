@@ -19,6 +19,7 @@ import com.lodz.android.mmsplayerdemo.R
 import com.lodz.android.mmsplayerdemo.utils.sp.SpManager
 import com.lodz.android.mmsplayerdemo.video.assist.VideoAdjustProgressLayout
 import com.lodz.android.mmsplayerdemo.video.assist.VideoBrightnessLayout
+import com.lodz.android.mmsplayerdemo.video.assist.VideoVolumeLayout
 import com.lodz.android.mmsplayerdemo.video.menu.SlideControlLayout
 import com.lodz.android.mmsplayerdemo.video.menu.VideoBottomMenuLayout
 import com.lodz.android.mmsplayerdemo.video.menu.VideoTopMenuLayout
@@ -77,7 +78,10 @@ class MediaView : FrameLayout {
     private val mVideoBrightnessLayout by lazy {
         findViewById<VideoBrightnessLayout>(R.id.video_brightness_layout)
     }
-
+    /** 音量页面 */
+    private val mVideoVolumeLayout by lazy {
+        findViewById<VideoVolumeLayout>(R.id.video_volume_layout)
+    }
 
 
     /** Activity */
@@ -219,12 +223,17 @@ class MediaView : FrameLayout {
             }
 
             override fun onStartSlideRightZone() {
+                mVideoVolumeLayout.show()
             }
 
             override fun onSlidingRightZone(delta: Float) {
+                if (mActivity != null) {
+                    mVideoVolumeLayout.updateVolume(mActivity!!, delta)
+                }
             }
 
             override fun onEndSlideRightZone() {
+                mVideoVolumeLayout.hide()
             }
 
             override fun onStartSlideHorizontal() {

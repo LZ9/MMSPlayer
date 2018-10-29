@@ -69,6 +69,14 @@
         android:visibility="gone" />
 
 
+    <!-- 音量界面 -->
+    <com.lodz.android.mmsplayerdemo.video.assist.VideoVolumeLayout
+        android:id="@+id/video_volume_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone" />
+
     <!-- 加载页面 -->
     <com.lodz.android.mmsplayerdemo.video.status.VideoLoadingLayout
         android:id="@+id/video_loading_layout"
