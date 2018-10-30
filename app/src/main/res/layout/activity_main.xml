@@ -27,10 +27,4 @@
         android:layout_height="wrap_content"
         android:text="@string/main_widget_view" />
 
-    <Button
-        android:id="@+id/half_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/main_half_view" />
-
 </LinearLayout>

@@ -16,7 +16,7 @@ class VideoLoadingAdapter(private val context: Context) : RecyclerView.Adapter<R
 
     private var mData: List<String>? = null
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder = TipsViewHolder(getLayoutView(parent, R.layout.view_video_loading_tips))
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder = TipsViewHolder(getLayoutView(parent, R.layout.rv_item_video_loading_tips))
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (holder is TipsViewHolder) {

@@ -33,4 +33,14 @@
     <string name="video_network_type_2g">2G</string>
     <string name="video_network_type_3g">3G</string>
     <string name="video_network_type_4g">4G</string>
+
+    <string name="info_name">深圳市绿色低碳科技促进会</string>
+    <string name="info_content">\t\t\t\t深圳市绿色低碳科技促进会（以下简称协会）是积极响应国家建设资源节约型、环境友好型社会，响应深圳市政府提出的在全国率先建设绿色低碳科技新城市，促进深圳经济可持续发展的号召，于二零一一年六月十四日成立的经深圳市民政局注册、登记的具有法人资格的、行业性、地方性的行业协会，主要由深圳低碳节能环保相关企业、事业单位、社会组织及个人自愿参加。协会现有会员企业100多家，是深圳一家较新的充满生命力的不以盈利为目的的公益性组织。</string>
+    <string name="info_overview_title">协会概况</string>
+    <string name="info_overview">\t\t\t\t协会自成立伊始就致力于促进深圳市绿色经济可持续发展，推动低碳技术创新，走绿色低碳发展道路。协会除了业务范围内的工作，还与深圳环保局、深圳市经济贸易和信息化委员会、南山区政府、福田区政府等都有重大项目合作，不是只简单的服务企业，而是真正的帮助企业提升、进步，从而促进深圳市更好的发展绿色低碳经济。</string>
+    <string name="info_purpose_title">协会宗旨</string>
+    <string name="info_purpose">\t\t\t\t遵守宪法、法律、法规和国家政策。遵守社会道德规范，维护国家根本利益，认真贯彻执行国家和深圳市鼓励绿色低碳发展的若干政策，通过为政府有关部门和会员服务，充分发挥促进会作为政府与企业之间的桥梁与纽带作用，达到促进深圳可再生能源持续发展的目的。</string>
+
+
+
 </resources>

@@ -49,7 +49,6 @@ class VideoActivity : AppCompatActivity() {
         }
     }
 
-
     /** tab栏目名称 */
     private val TAB_NAMES = arrayOf("简介", "评论")
 
