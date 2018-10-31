@@ -7,6 +7,7 @@ import androidx.annotation.IntDef;
 import com.lodz.android.mmsplayer.R;
 import com.lodz.android.mmsplayer.contract.IVideoPlayer;
 import com.lodz.android.mmsplayer.ijk.media.IjkVideoView;
+import com.lodz.android.mmsplayer.ijk.setting.IjkPlayerSetting;
 import tv.danmaku.ijk.media.player.IMediaPlayer;
 import tv.danmaku.ijk.media.player.IjkMediaPlayer;
 
@@ -37,12 +38,7 @@ public class MmsVideoView extends IjkVideoView implements IVideoPlayer {
 
     @Override
     public void init() {
-        try {
-            IjkMediaPlayer.loadLibrariesOnce(null);
-            IjkMediaPlayer.native_profileBegin("libijkplayer.so");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        init(IjkPlayerSetting.getDefault());
     }
 
     @Override
@@ -52,7 +48,6 @@ public class MmsVideoView extends IjkVideoView implements IVideoPlayer {
         stopBackgroundPlay();
         IjkMediaPlayer.native_profileEnd();
     }
-
 
     @Override
     public void setListener(final Listener listener) {

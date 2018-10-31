@@ -136,12 +136,15 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
 
     /**
      * 初始化VideoView
-     *
      * @param context 上下文
      */
     private void initVideoView(Context context) {
-        mSetting = IjkPlayerSetting.getDefault();
         mAppContext = context.getApplicationContext();
+    }
+
+    /** 初始化 */
+    public void init(IjkPlayerSetting setting){
+        mSetting = setting == null ? IjkPlayerSetting.getDefault() : setting;
         Log.d(TAG_SETTING, mSetting.toString());//打印配置信息
 
         initBackground();
@@ -154,6 +157,16 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
         mCurrentState = STATE_IDLE;
         mTargetState = STATE_IDLE;
         setHudLog(false);
+        loadNative();
+    }
+
+    private void loadNative(){
+        try {
+            IjkMediaPlayer.loadLibrariesOnce(null);
+            IjkMediaPlayer.native_profileBegin("libijkplayer.so");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**

@@ -14,9 +14,10 @@ import android.widget.FrameLayout
 import android.widget.ProgressBar
 import android.widget.SeekBar
 import com.lodz.android.mmsplayer.contract.IVideoPlayer
+import com.lodz.android.mmsplayer.ijk.media.IRenderView
+import com.lodz.android.mmsplayer.ijk.setting.IjkPlayerSetting
 import com.lodz.android.mmsplayer.impl.MmsVideoView
 import com.lodz.android.mmsplayerdemo.R
-import com.lodz.android.mmsplayerdemo.utils.sp.SpManager
 import com.lodz.android.mmsplayerdemo.video.assist.VideoAdjustProgressLayout
 import com.lodz.android.mmsplayerdemo.video.assist.VideoBrightnessLayout
 import com.lodz.android.mmsplayerdemo.video.assist.VideoVolumeLayout
@@ -285,8 +286,9 @@ class MediaView : FrameLayout {
     }
 
     private fun initData() {
-        mVideoPlayer.init()
-        mVideoPlayer.setAspectRatio(SpManager.get().getAspectRatioType()) // 设置宽高比
+        val setting = IjkPlayerSetting.getDefault()
+        setting.aspectRatioType = IRenderView.AR_ASPECT_FILL_PARENT
+        mVideoPlayer.init(setting)
     }
 
     /** 初始化MediaView */

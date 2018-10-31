@@ -3,6 +3,7 @@ package com.lodz.android.mmsplayer.contract;
 import android.content.Context;
 import com.lodz.android.mmsplayer.ijk.bean.MediaInfoBean;
 import com.lodz.android.mmsplayer.ijk.media.IMediaController;
+import com.lodz.android.mmsplayer.ijk.setting.IjkPlayerSetting;
 import com.lodz.android.mmsplayer.impl.MmsVideoView;
 
 /**
@@ -13,6 +14,9 @@ public interface IVideoPlayer {
 
     /** 初始化 */
     void init();
+
+    /** 初始化 */
+    void init(IjkPlayerSetting setting);
 
     /** 设置原生控制器 */
     void setMediaController(IMediaController controller);
