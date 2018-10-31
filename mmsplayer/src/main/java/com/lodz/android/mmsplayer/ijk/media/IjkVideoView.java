@@ -960,8 +960,8 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
         mCurrentAspectRatioIndex %= s_allAspectRatio.length;
 
         int aspectRatio = s_allAspectRatio[mCurrentAspectRatioIndex];
-        setAspectRatio(s_allAspectRatio[mCurrentAspectRatioIndex]);
-        return s_allAspectRatio[mCurrentAspectRatioIndex];
+        setAspectRatio(aspectRatio);
+        return aspectRatio;
     }
 
     public void setAspectRatio(@IjkPlayerSetting.AspectRatioType int aspectRatioType) {

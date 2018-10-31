@@ -35,7 +35,6 @@ dependencies {
 //    implementation 'tv.danmaku.ijk.media:ijkplayer-x86_64:0.8.8'
 }
 
-//stefma
 //version = "1.0.4"
 //group = "cn.lodz"
 //publish {
