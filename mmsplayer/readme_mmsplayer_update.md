@@ -6,5 +6,5 @@
 3. 发布1.0.4版本
 
 ## 扩展
-- [回到顶部](https://github.com/LZ9/Hermes/blob/master/hermes/readme_mmsplayer_update#MMSPlayer更新记录)
+- [回到顶部](https://github.com/LZ9/MMSPlayer/blob/master/mmsplayer/readme_mmsplayer_update.md#mmsplayer更新记录)
 - [MMSPlayer 主页](https://github.com/LZ9/MMSPlayer)

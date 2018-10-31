@@ -3,11 +3,10 @@
 大家可以在基础播放器上自定义菜单页面等等，详细demo可以git工程查看或者直接进入 [VideoActivity.kt](https://github.com/LZ9/MMSPlayer/blob/master/app/src/main/java/com/lodz/android/mmsplayerdemo/widget/VideoActivity.kt) 查看。
 
 ## 目录
-- [1、添加Gradle依赖](https://github.com/LZ9/Hermes#1添加Gradle依赖)
-- [2、Hermes涉及的依赖库](https://github.com/LZ9/Hermes#2Hermes涉及的依赖库)
-- [3、使用方法](https://github.com/LZ9/Hermes#3使用方法)
-- [4、搭建推送测试后台](https://github.com/LZ9/Hermes#4搭建推送测试后台)
-- [扩展](https://github.com/LZ9/Hermes#扩展)
+- [1、添加Gradle依赖](https://github.com/LZ9/MMSPlayer#1添加gradle依赖)
+- [2、使用方法](https://github.com/LZ9/MMSPlayer#2使用方法)
+- [3、测试Demo（Kotlin编写）](https://github.com/LZ9/MMSPlayer#3测试demokotlin编写)
+- [扩展](https://github.com/LZ9/MMSPlayer#扩展)
 
 ## 1、添加Gradle依赖
 ```
@@ -145,8 +144,8 @@
 - 大家可以git工程下来，运行查看。
 
 ## 扩展
-- [更新记录](https://github.com/LZ9/Hermes/blob/master/hermes/readme_hermes_update.md)
-- [回到顶部](https://github.com/LZ9/Hermes#hermes推送订阅)
+- [更新记录](https://github.com/LZ9/MMSPlayer/blob/master/mmsplayer/readme_mmsplayer_update.md)
+- [回到顶部](https://github.com/LZ9/MMSPlayer#mmsplayer播放器)
 
 ## License
 - [Apache Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.html)
