@@ -17,8 +17,8 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:contentDescription="@string/app_name"
-            android:paddingLeft="3dp"
-            android:paddingRight="3dp"
+            android:paddingStart="3dp"
+            android:paddingEnd="3dp"
             android:scaleType="center"
             android:src="@drawable/selector_video_play"
             android:visibility="gone" />
@@ -29,8 +29,8 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:contentDescription="@string/app_name"
-            android:paddingLeft="3dp"
-            android:paddingRight="3dp"
+            android:paddingStart="3dp"
+            android:paddingEnd="3dp"
             android:scaleType="center"
             android:src="@drawable/selector_video_pause"
             android:visibility="visible" />
@@ -67,8 +67,8 @@
             android:layout_width="40dp"
             android:layout_height="match_parent"
             android:contentDescription="@string/app_name"
-            android:paddingLeft="8dp"
-            android:paddingRight="8dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
             android:src="@drawable/selector_video_screen" />
 
     </FrameLayout>

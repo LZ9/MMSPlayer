@@ -41,6 +41,16 @@
     <string name="info_purpose_title">协会宗旨</string>
     <string name="info_purpose">\t\t\t\t遵守宪法、法律、法规和国家政策。遵守社会道德规范，维护国家根本利益，认真贯彻执行国家和深圳市鼓励绿色低碳发展的若干政策，通过为政府有关部门和会员服务，充分发挥促进会作为政府与企业之间的桥梁与纽带作用，达到促进深圳可再生能源持续发展的目的。</string>
 
+    <string name="dialog_setting_title">播放器设置</string>
+    <string name="dialog_setting_un_next">不连播</string>
+    <string name="dialog_setting_auto_next">自动连播</string>
+    <string name="dialog_setting_single_cycle">单集循环</string>
+    <string name="dialog_setting_exit_end">播完退出全屏</string>
+    <string name="dialog_setting_aspect_ratio_default">默认</string>
+    <string name="dialog_setting_aspect_ratio_full">全屏</string>
+    <string name="dialog_setting_aspect_ratio_16_9">16：9</string>
+    <string name="dialog_setting_aspect_ratio_4_3">4：3</string>
+
 
 
 </resources>

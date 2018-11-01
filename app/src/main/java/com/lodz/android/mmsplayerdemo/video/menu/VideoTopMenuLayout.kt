@@ -60,9 +60,15 @@ class VideoTopMenuLayout : LinearLayout {
     private val mBatteryImg by lazy {
         findViewById<ImageView>(R.id.battery_img)
     }
+    /** 设置按钮 */
+    private val mSettingBtn by lazy {
+        findViewById<ImageView>(R.id.setting_btn)
+    }
 
     /** 返回按钮监听器 */
     private var mBackListener: View.OnClickListener? = null
+    /** 设置按钮监听器 */
+    private var mSettingListener: View.OnClickListener? = null
     /** 是否全屏模式 */
     private var isFullScreen = false
     /** 时间更新观察者 */
@@ -77,12 +83,7 @@ class VideoTopMenuLayout : LinearLayout {
     constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs)
     constructor(context: Context?, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    constructor(context: Context?, attrs: AttributeSet?, defStyleAttr: Int, defStyleRes: Int) : super(
-            context,
-            attrs,
-            defStyleAttr,
-            defStyleRes
-    )
+    constructor(context: Context?, attrs: AttributeSet?, defStyleAttr: Int, defStyleRes: Int) : super(context, attrs, defStyleAttr, defStyleRes)
 
     /** 网络状态变化监听器 */
     private val mNetworkListener = object : NetworkManager.NetworkListener {
@@ -104,6 +105,12 @@ class VideoTopMenuLayout : LinearLayout {
         mBackBtn.setOnClickListener {
             if (mBackListener != null) {
                 mBackListener!!.onClick(it)
+            }
+        }
+
+        mSettingBtn.setOnClickListener {
+            if (mSettingListener != null){
+                mSettingListener!!.onClick(it)
             }
         }
     }
@@ -129,6 +136,11 @@ class VideoTopMenuLayout : LinearLayout {
     /** 设置返回按钮监听器 */
     fun setBackListener(listener: View.OnClickListener) {
         mBackListener = listener
+    }
+
+    /** 设置设置按钮监听器 */
+    fun setSettingListener(listener: View.OnClickListener) {
+        mSettingListener = listener
     }
 
     /** 顶部菜单是否显示 */
@@ -236,7 +248,7 @@ class VideoTopMenuLayout : LinearLayout {
     }
 
     /** 电池电量接收器 */
-    private inner class BatteryBroadcastReceiver : BroadcastReceiver(){
+    private inner class BatteryBroadcastReceiver : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             if (intent == null) {
                 return

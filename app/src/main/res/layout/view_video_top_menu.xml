@@ -74,16 +74,15 @@
         android:layout_height="match_parent"
         android:orientation="horizontal">
 
-        <!-- 画质 -->
+        <!-- 设置 -->
         <ImageView
-            android:id="@+id/quality_btn"
-            android:layout_width="wrap_content"
+            android:id="@+id/setting_btn"
+            android:layout_width="40dp"
             android:layout_height="match_parent"
             android:contentDescription="@string/app_name"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:src="@drawable/component_ic_launcher"
-            android:visibility="gone" />
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:src="@drawable/selector_video_setting" />
 
     </LinearLayout>
 

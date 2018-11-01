@@ -3,6 +3,7 @@ package com.lodz.android.mmsplayerdemo.video.view
 import android.annotation.TargetApi
 import android.app.Activity
 import android.content.Context
+import android.content.DialogInterface
 import android.content.pm.ActivityInfo
 import android.os.Build
 import android.util.AttributeSet
@@ -18,9 +19,11 @@ import com.lodz.android.mmsplayer.ijk.media.IRenderView
 import com.lodz.android.mmsplayer.ijk.setting.IjkPlayerSetting
 import com.lodz.android.mmsplayer.impl.MmsVideoView
 import com.lodz.android.mmsplayerdemo.R
+import com.lodz.android.mmsplayerdemo.config.Constant
 import com.lodz.android.mmsplayerdemo.video.assist.VideoAdjustProgressLayout
 import com.lodz.android.mmsplayerdemo.video.assist.VideoBrightnessLayout
 import com.lodz.android.mmsplayerdemo.video.assist.VideoVolumeLayout
+import com.lodz.android.mmsplayerdemo.video.dialog.VideoSettingDialog
 import com.lodz.android.mmsplayerdemo.video.menu.SlideControlLayout
 import com.lodz.android.mmsplayerdemo.video.menu.VideoBottomMenuLayout
 import com.lodz.android.mmsplayerdemo.video.menu.VideoTopMenuLayout
@@ -99,16 +102,16 @@ class MediaView : FrameLayout {
     /** 播放中断时的播放进度 */
     private var mBreakPosition = 0L
 
+    /** 播放类型 */
+    private var mPlayType = Constant.UN_NEXT
+    /** 宽高比 */
+    private var mAspectRatioType = IRenderView.AR_ASPECT_FIT_PARENT
+
     constructor(context: Context) : super(context)
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int, defStyleRes: Int) : super(
-        context,
-        attrs,
-        defStyleAttr,
-        defStyleRes
-    )
+    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int, defStyleRes: Int) : super(context, attrs, defStyleAttr, defStyleRes)
 
     init {
         LayoutInflater.from(context).inflate(R.layout.view_media, this)
@@ -144,6 +147,9 @@ class MediaView : FrameLayout {
                 mBottomMenuLayout.showPauseStatus()
                 mBottomMenuLayout.stopUpdateProgress()
                 mBottomMenuLayout.setPlayCompletion()
+                handleCompletion(mPlayType)
+                showMenu()// 播放结束时显示菜单
+                stopAutoHideMenu()
                 Log.v(MediaView.TAG, "播放器 ---> 播放结束")
             }
 
@@ -167,6 +173,11 @@ class MediaView : FrameLayout {
             if (mListener != null) {
                 mListener!!.onClickBack()
             }
+        })
+
+        // 顶部菜单 设置按钮
+        mVideoTopMenuLayout.setSettingListener(OnClickListener {
+            showSettingDialog()
         })
 
         // 底部菜单
@@ -211,9 +222,9 @@ class MediaView : FrameLayout {
         // 手势划动回调控件
         mSlideControlLayout.setListener(object : SlideControlLayout.Listener {
             override fun onClick(view: View) {
-                if (isMenuShow()){
+                if (isMenuShow()) {
                     hideMenu()
-                }else{
+                } else {
                     showMenu()
                 }
             }
@@ -287,7 +298,7 @@ class MediaView : FrameLayout {
 
     private fun initData() {
         val setting = IjkPlayerSetting.getDefault()
-        setting.aspectRatioType = IRenderView.AR_ASPECT_FILL_PARENT
+        setting.aspectRatioType = mAspectRatioType
         mVideoPlayer.init(setting)
     }
 
@@ -389,7 +400,7 @@ class MediaView : FrameLayout {
 
     /** 显示菜单 */
     private fun showMenu() {
-        if (isFullScreen){
+        if (isFullScreen) {
             mVideoTopMenuLayout.show()
         }
         mBottomMenuLayout.show()
@@ -398,7 +409,7 @@ class MediaView : FrameLayout {
 
     /** 隐藏菜单 */
     private fun hideMenu() {
-        if (isFullScreen){
+        if (isFullScreen) {
             mVideoTopMenuLayout.hide()
         }
         mBottomMenuLayout.hide()
@@ -429,9 +440,9 @@ class MediaView : FrameLayout {
         }
 
         Observable.interval(5, 5, TimeUnit.SECONDS)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(mAutoHideMenuObserver!!)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(mAutoHideMenuObserver!!)
         Log.v(MediaView.TAG, "开始自动隐藏菜单")
     }
 
@@ -444,6 +455,51 @@ class MediaView : FrameLayout {
             }
             mAutoHideMenuObserver = null
             Log.v(MediaView.TAG, "停止自动隐藏菜单")
+        }
+    }
+
+    /** 显示设置菜单 */
+    private fun showSettingDialog() {
+        val dialog = VideoSettingDialog(context)
+        dialog.init(mPlayType, mAspectRatioType)
+        dialog.setListener(object : VideoSettingDialog.Listener {
+            override fun onPlayTypeChanged(playType: Int) {
+                mPlayType = playType
+            }
+
+            override fun onAspectRatioChanged(aspectRatioType: Int) {
+                if (mAspectRatioType != aspectRatioType) {
+                    mVideoPlayer.setAspectRatio(aspectRatioType)
+                    mAspectRatioType = aspectRatioType
+                }
+            }
+
+            override fun onCancel(dialog: DialogInterface) {
+                showMenu()
+            }
+        })
+        dialog.show()
+        hideMenu()
+        stopAutoHideMenu()
+    }
+
+    /** 处理播放完成 */
+    private fun handleCompletion(@Constant.PlayType playType: Int) {
+        if (playType == Constant.UN_NEXT){// 不连播
+            return
+        }
+        if (playType == Constant.AUTO_NEXT){// 自动连播
+            return
+        }
+        if (playType == Constant.SINGLE_CYCLE){// 单集循环
+            resume()
+            return
+        }
+        if (playType == Constant.EXIT_END){// 播放完退出全屏
+            if (isFullScreen && mListener != null){
+                mListener!!.onClickBack()
+            }
+            return
         }
     }
 
