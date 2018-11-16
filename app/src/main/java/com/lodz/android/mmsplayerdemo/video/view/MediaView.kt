@@ -341,6 +341,12 @@ class MediaView : FrameLayout {
         Log.v(MediaView.TAG, "开始播放")
     }
 
+    /** 开始播放 */
+    fun seekTo(position: Long) {
+        mVideoPlayer.seekTo(position)
+        Log.v(MediaView.TAG, "进度调整：$position")
+    }
+
     /** 暂停 */
     fun pause() {
         mVideoPlayer.pause()
