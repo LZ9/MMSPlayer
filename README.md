@@ -10,7 +10,7 @@
 
 ## 1、添加Gradle依赖
 ```
-    implementation 'cn.lodz:mmsplayer:1.0.4'
+    implementation 'cn.lodz:mmsplayer:1.0.6'
 ```
 
 ## 2、使用方法
