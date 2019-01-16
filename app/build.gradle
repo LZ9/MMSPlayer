@@ -28,5 +28,5 @@ dependencies {
     implementation 'cn.lodz:Component:2.0.9'
 
     implementation project(':mmsplayer')
-//    implementation 'cn.lodz:mmsplayer:1.0.5'
+//    implementation 'cn.lodz:mmsplayer:1.0.6'
 }
