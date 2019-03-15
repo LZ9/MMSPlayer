@@ -7,7 +7,7 @@ android {
         minSdkVersion 19
         targetSdkVersion 28
         versionCode 7
-        versionName "1.0.7"// 未上传
+        versionName "1.0.7"// 成功上传
     }
     buildTypes {
         release {
@@ -35,7 +35,7 @@ dependencies {
 //    implementation 'tv.danmaku.ijk.media:ijkplayer-x86_64:0.8.8'
 }
 
-//version = "1.0.6"
+//version = "1.0.7"
 //group = "cn.lodz"
 //publish {
 //    userOrg = 'lz9'
