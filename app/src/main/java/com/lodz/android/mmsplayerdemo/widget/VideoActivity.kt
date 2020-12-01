@@ -134,8 +134,8 @@ class VideoActivity : AppCompatActivity() {
             finish()
             return
         }
-        mVideoPath = intent.getStringExtra(EXTRA_VIDEO_PATH)
-        mVideoName = intent.getStringExtra(EXTRA_VIDEO_NAME)
+        mVideoPath = intent.getStringExtra(EXTRA_VIDEO_PATH) ?: ""
+        mVideoName = intent.getStringExtra(EXTRA_VIDEO_NAME) ?: ""
 
         Log.e(MediaView.TAG, "VideoName : $mVideoName")
         Log.e(MediaView.TAG, "VideoPath : $mVideoPath")
