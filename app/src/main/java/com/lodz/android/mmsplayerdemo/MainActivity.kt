@@ -41,14 +41,4 @@ class MainActivity : BaseActivity() {
         super.initData()
         showStatusCompleted()
     }
-
-    //  <com.lodz.android.pandora.widget.base.TitleBarLayout
-    //        android:id="@+id/title_bar_layout"
-    //        android:layout_width="match_parent"
-    //        android:layout_height="wrap_content"
-    //        app:titleTextColor="@color/white"
-    //        app:titleText="@string/app_name"
-    //        app:titleBarBackground="@color/colorPrimary">
-    //
-    //    </com.lodz.android.pandora.widget.base.TitleBarLayout>
 }
