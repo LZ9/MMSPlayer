@@ -17,18 +17,20 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
-import com.lodz.android.core.network.NetworkManager
-import com.lodz.android.core.utils.DensityUtils
-import com.lodz.android.core.utils.ToastUtils
+import com.lodz.android.corekt.anko.bindView
+import com.lodz.android.corekt.anko.dp2px
+import com.lodz.android.corekt.anko.toastShort
+import com.lodz.android.corekt.network.NetworkManager
 import com.lodz.android.mmsplayerdemo.R
 import com.lodz.android.mmsplayerdemo.video.status.VideoPhoneDataLayout
 import com.lodz.android.mmsplayerdemo.video.view.MediaView
+import com.lodz.android.pandora.base.activity.AbsActivity
 
 /**
  * 视频播放activity
  * Created by zhouL on 2018/10/22.
  */
-class VideoActivity : AppCompatActivity() {
+class VideoActivity : AbsActivity() {
 
     companion object {
 
@@ -37,8 +39,8 @@ class VideoActivity : AppCompatActivity() {
         private const val EXTRA_VIDEO_PATH = "extra_video_path"
 
         fun start(context: Context, videoName: String, path: String) {
-            if (!NetworkManager.get().isNetworkAvailable) {// 网络未连接时直接提示用户
-                ToastUtils.showShort(context, R.string.network_no_connect)
+            if (!NetworkManager.get().isNetworkAvailable()) {// 网络未连接时直接提示用户
+                context.toastShort(R.string.network_no_connect)
                 return
             }
 
@@ -53,53 +55,38 @@ class VideoActivity : AppCompatActivity() {
     private val TAB_NAMES = arrayOf("简介", "评论")
 
     /** 返回按钮 */
-    private val mBackBtn by lazy {
-        findViewById<ImageView>(R.id.back_btn)
-    }
+    private val mBackBtn by bindView<ImageView>(R.id.back_btn)
     /** 播放器布局 */
-    private val mVideoLayout by lazy {
-        findViewById<ViewGroup>(R.id.video_layout)
-    }
+    private val mVideoLayout by bindView<ViewGroup>(R.id.video_layout)
     /** 播放器 */
-    private val mMediaView by lazy {
-        findViewById<MediaView>(R.id.media_view)
-    }
+    private val mMediaView by bindView<MediaView>(R.id.media_view)
     /** 数据流量播放提示页 */
-    private val mVideoPhoneDataLayout by lazy {
-        findViewById<VideoPhoneDataLayout>(R.id.video_phone_data_layout)
-    }
+    private val mVideoPhoneDataLayout by bindView<VideoPhoneDataLayout>(R.id.video_phone_data_layout)
     /** TabLayout */
-    private val mTabLayout by lazy {
-        findViewById<TabLayout>(R.id.tab_layout)
-    }
+    private val mTabLayout by bindView<TabLayout>(R.id.tab_layout)
     /** ViewPager */
-    private val mViewPager by lazy {
-        findViewById<ViewPager>(R.id.view_pager)
-    }
-
+    private val mViewPager by bindView<ViewPager>(R.id.view_pager)
 
     /** 视频路径 */
     private lateinit var mVideoPath: String
     /** 视频名称 */
     private lateinit var mVideoName: String
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun startCreate() {
+        super.startCreate()
         configWindow()
         getParameter(intent)
-        setContentView(R.layout.activity_video)
+    }
+
+    override fun getAbsLayoutId(): Int = R.layout.activity_video
+
+    override fun findViews(savedInstanceState: Bundle?) {
+        super.findViews(savedInstanceState)
         initMediaView()
-        setListeners()
-        playVideo()
-        initViewPager()
-        mBackBtn.bringToFront()
     }
 
-    override fun onBackPressed() {
-        quit()
-    }
-
-    private fun setListeners() {
+    override fun setListeners() {
+        super.setListeners()
         mMediaView.setListener(object : MediaView.Listener {
             override fun onScreenChange(isFull: Boolean) {
                 changeOrientation(isFull)
@@ -127,10 +114,23 @@ class VideoActivity : AppCompatActivity() {
         }
     }
 
+
+    override fun initData() {
+        super.initData()
+        playVideo()
+        initViewPager()
+        mBackBtn.bringToFront()
+    }
+
+    override fun onPressBack(): Boolean {
+        quit()
+        return true
+    }
+
     /** 获取播放参数 */
     private fun getParameter(intent: Intent?) {
         if (intent == null) {
-            ToastUtils.showShort(this, R.string.video_parameter_error)
+            toastShort(R.string.video_parameter_error)
             finish()
             return
         }
@@ -168,7 +168,7 @@ class VideoActivity : AppCompatActivity() {
     private fun changeOrientation(isLandscape: Boolean) {
         mMediaView.setFullScreen(isLandscape)
         val lp = mVideoLayout.layoutParams
-        lp.height = if (isLandscape) FrameLayout.LayoutParams.MATCH_PARENT else DensityUtils.dp2px(applicationContext, 200f)
+        lp.height = if (isLandscape) FrameLayout.LayoutParams.MATCH_PARENT else dp2px(200)
         mVideoLayout.layoutParams = lp
         requestedOrientation = if (isLandscape) ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE else ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         mBackBtn.visibility = if (isLandscape) View.GONE else View.VISIBLE
@@ -176,7 +176,7 @@ class VideoActivity : AppCompatActivity() {
 
     /** 播放视频 */
     private fun playVideo() {
-        if (!NetworkManager.get().isWifi) {// 流量下
+        if (!NetworkManager.get().isWifi()) {// 流量下
             mVideoPhoneDataLayout.show()
         } else {
             mVideoPhoneDataLayout.hide()

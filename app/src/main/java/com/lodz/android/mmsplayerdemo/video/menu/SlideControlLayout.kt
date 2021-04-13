@@ -9,7 +9,8 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
 import android.widget.FrameLayout
-import com.lodz.android.core.utils.ScreenUtils
+import com.lodz.android.corekt.anko.getScreenHeight
+import com.lodz.android.corekt.anko.getScreenWidth
 
 /**
  * 滑动控制控件
@@ -61,8 +62,8 @@ class SlideControlLayout : FrameLayout {
 
     private fun initScreenSize() {
         if (!isInEditMode) {
-            DEFAULT_SCREEN_WIDTH = ScreenUtils.getScreenWidth(context)
-            DEFAULT_SCREEN_HEIGHT = ScreenUtils.getScreenHeight(context)
+            DEFAULT_SCREEN_WIDTH = getScreenWidth()
+            DEFAULT_SCREEN_HEIGHT = getScreenHeight()
         }
     }
 

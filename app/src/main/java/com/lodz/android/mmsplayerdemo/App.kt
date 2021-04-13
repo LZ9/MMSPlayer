@@ -1,15 +1,15 @@
 package com.lodz.android.mmsplayerdemo
 
-import android.app.Application
 import android.content.Context
 import androidx.multidex.MultiDex
-import com.lodz.android.core.network.NetworkManager
+import com.lodz.android.corekt.network.NetworkManager
+import com.lodz.android.pandora.base.application.BaseApplication
 
 /**
  * Application
  * Created by zhouL on 2018/10/22.
  */
-class App :Application(){
+class App :BaseApplication(){
     companion object {
         private var sInstance: App? = null
         fun get() = sInstance
@@ -20,10 +20,11 @@ class App :Application(){
         MultiDex.install(this)
     }
 
-    override fun onCreate() {
-        super.onCreate()
+    override fun onStartCreate() {
         sInstance = this
         NetworkManager.get().init(this)
     }
 
+    override fun onExit() {
+    }
 }

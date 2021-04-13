@@ -10,8 +10,9 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.lodz.android.core.utils.AnimUtils
-import com.lodz.android.core.utils.UiHandler
+import com.lodz.android.corekt.anko.bindView
+import com.lodz.android.corekt.anko.startAnim
+import com.lodz.android.corekt.utils.UiHandler
 import com.lodz.android.mmsplayerdemo.R
 
 /**
@@ -21,13 +22,10 @@ import com.lodz.android.mmsplayerdemo.R
 class VideoLoadingLayout : LinearLayout {
 
     /** 返回按钮 */
-    private val mBackBtn by lazy {
-        findViewById<ImageView>(R.id.back_btn)
-    }
+    private val mBackBtn by bindView<ImageView>(R.id.back_btn)
     /** 数据提示列表 */
-    private val mRecyclerView by lazy {
-        findViewById<RecyclerView>(R.id.recycler_view)
-    }
+    private val mRecyclerView by bindView<RecyclerView>(R.id.recycler_view)
+
     /** 提示列表适配器 */
     private lateinit var mAdapter: VideoLoadingAdapter
     /** 提示语列表 */
@@ -92,7 +90,7 @@ class VideoLoadingLayout : LinearLayout {
     fun hide() {
         if (isShow()) {
             UiHandler.postDelayed({
-                AnimUtils.startAnim(context, this, R.anim.anim_fade_out, View.GONE)
+                startAnim(context, R.anim.anim_fade_out, View.GONE)
             }, 300)
         }
     }

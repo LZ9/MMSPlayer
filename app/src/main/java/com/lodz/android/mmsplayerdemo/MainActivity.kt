@@ -2,30 +2,29 @@ package com.lodz.android.mmsplayerdemo
 
 import android.os.Bundle
 import android.widget.Button
-import androidx.appcompat.app.AppCompatActivity
-import com.lodz.android.component.widget.base.TitleBarLayout
+import com.lodz.android.corekt.anko.bindView
+import com.lodz.android.corekt.anko.getColorCompat
 import com.lodz.android.mmsplayerdemo.simple.SimpleVideoActivity
 import com.lodz.android.mmsplayerdemo.widget.VideoActivity
+import com.lodz.android.pandora.base.activity.BaseActivity
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
 
-    private val mTitleBarLayout by lazy {
-        findViewById<TitleBarLayout>(R.id.title_bar_layout)
+    private val mSimpleBtn by bindView<Button>(R.id.simple_btn)
+
+    private val mWidgetBtn by bindView<Button>(R.id.widget_btn)
+
+    override fun getLayoutId(): Int = R.layout.activity_main
+
+    override fun findViews(savedInstanceState: Bundle?) {
+        super.findViews(savedInstanceState)
+        getTitleBarLayout().setTitleName(R.string.app_name)
+        getTitleBarLayout().setBackgroundColor(getColorCompat(R.color.colorPrimary))
     }
 
-    private val mSimpleBtn by lazy {
-        findViewById<Button>(R.id.simple_btn)
-    }
-
-    private val mWidgetBtn by lazy {
-        findViewById<Button>(R.id.widget_btn)
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-
-        mTitleBarLayout.setOnBackBtnClickListener {
+    override fun setListeners() {
+        super.setListeners()
+        getTitleBarLayout().setOnBackBtnClickListener {
             finish()
         }
 
@@ -38,5 +37,18 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    override fun initData() {
+        super.initData()
+        showStatusCompleted()
+    }
 
+    //  <com.lodz.android.pandora.widget.base.TitleBarLayout
+    //        android:id="@+id/title_bar_layout"
+    //        android:layout_width="match_parent"
+    //        android:layout_height="wrap_content"
+    //        app:titleTextColor="@color/white"
+    //        app:titleText="@string/app_name"
+    //        app:titleBarBackground="@color/colorPrimary">
+    //
+    //    </com.lodz.android.pandora.widget.base.TitleBarLayout>
 }

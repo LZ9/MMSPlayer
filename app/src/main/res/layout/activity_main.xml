@@ -5,16 +5,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.lodz.android.component.widget.base.TitleBarLayout
-        android:id="@+id/title_bar_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:titleTextColor="@color/white"
-        app:titleText="@string/app_name"
-        app:titleBarBackground="@color/colorPrimary">
-
-    </com.lodz.android.component.widget.base.TitleBarLayout>
-
     <Button
         android:id="@+id/simple_btn"
         android:layout_width="wrap_content"

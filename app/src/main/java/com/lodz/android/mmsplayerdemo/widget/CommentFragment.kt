@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.lodz.android.core.utils.DateUtils
+import com.lodz.android.corekt.utils.DateUtils
 import com.lodz.android.mmsplayerdemo.R
 import java.util.*
 
@@ -39,7 +39,7 @@ class CommentFragment : Fragment() {
     private fun initRecyclerView() {
         val layoutManager = LinearLayoutManager(context)
         layoutManager.orientation = RecyclerView.VERTICAL
-        mAdapter = CommentAdapter(context!!)
+        mAdapter = CommentAdapter(requireContext())
         mRecyclerView.layoutManager = layoutManager
         mRecyclerView.setHasFixedSize(true)
         mRecyclerView.adapter = mAdapter

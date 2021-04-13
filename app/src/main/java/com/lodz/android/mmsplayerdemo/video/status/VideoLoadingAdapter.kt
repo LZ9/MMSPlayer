@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.lodz.android.corekt.anko.bindView
 import com.lodz.android.mmsplayerdemo.R
 
 /**
@@ -41,9 +42,7 @@ class VideoLoadingAdapter(private val context: Context) : RecyclerView.Adapter<R
 
     inner class TipsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         /** 提示语 */
-        val tipsTv by lazy {
-            itemView.findViewById<TextView>(R.id.tips_tv)
-        }
+        val tipsTv by bindView<TextView>(R.id.tips_tv)
     }
 
     override fun getItemCount(): Int = if (mData != null) mData!!.size else 0

@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.lodz.android.corekt.anko.bindView
 import com.lodz.android.mmsplayerdemo.R
 import java.util.*
 
@@ -47,17 +48,11 @@ class CommentAdapter(private val context: Context) : RecyclerView.Adapter<Recycl
 
     inner class CommentViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         /** 姓名 */
-        val nameTv by lazy {
-            itemView.findViewById<TextView>(R.id.name_tv)
-        }
+        val nameTv by bindView<TextView>(R.id.name_tv)
         /** 日期 */
-        val dateTv by lazy {
-            itemView.findViewById<TextView>(R.id.date_tv)
-        }
+        val dateTv by bindView<TextView>(R.id.date_tv)
         /** 评论内容 */
-        val commentTv by lazy {
-            itemView.findViewById<TextView>(R.id.comment_tv)
-        }
+        val commentTv by bindView<TextView>(R.id.comment_tv)
     }
 
     fun setData(list: List<String>) {

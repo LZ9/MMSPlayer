@@ -16,7 +16,7 @@
             android:layout_height="wrap_content"
             android:contentDescription="@string/app_name"
             android:padding="15dp"
-            android:src="@drawable/component_selector_btn_back" />
+            android:src="@drawable/pandora_selector_btn_back" />
 
         <com.lodz.android.mmsplayerdemo.video.view.MediaView
             android:id="@+id/media_view"

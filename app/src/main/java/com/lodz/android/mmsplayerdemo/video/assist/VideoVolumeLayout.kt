@@ -8,8 +8,10 @@ import android.os.Build
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ProgressBar
+import com.lodz.android.corekt.anko.bindView
 import com.lodz.android.mmsplayerdemo.R
 
 /**
@@ -19,9 +21,7 @@ import com.lodz.android.mmsplayerdemo.R
 class VideoVolumeLayout : LinearLayout {
 
     /** 音量进度条 */
-    private val mVolumeProgressBar by lazy {
-        findViewById<ProgressBar>(R.id.volume_pb)
-    }
+    private val mVolumeProgressBar by bindView<ProgressBar>(R.id.volume_pb)
 
     /** 音量管理  */
     private var mAudioManager: AudioManager? = null

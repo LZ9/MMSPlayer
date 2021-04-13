@@ -11,9 +11,11 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.OnClickListener
+import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.ProgressBar
 import android.widget.SeekBar
+import com.lodz.android.corekt.anko.bindView
 import com.lodz.android.mmsplayer.contract.IVideoPlayer
 import com.lodz.android.mmsplayer.ijk.media.IRenderView
 import com.lodz.android.mmsplayer.ijk.setting.IjkPlayerSetting
@@ -47,45 +49,25 @@ class MediaView : FrameLayout {
     }
 
     /** 加载页面 */
-    private val mVideoLoadingLayout by lazy {
-        findViewById<VideoLoadingLayout>(R.id.video_loading_layout)
-    }
+    private val mVideoLoadingLayout by bindView<VideoLoadingLayout>(R.id.video_loading_layout)
     /** 加载失败页 */
-    private val mVideoErrorLayout by lazy {
-        findViewById<VideoErrorLayout>(R.id.video_error_layout)
-    }
+    private val mVideoErrorLayout by bindView<VideoErrorLayout>(R.id.video_error_layout)
     /** 手势划动回调控件 */
-    private val mSlideControlLayout by lazy {
-        findViewById<SlideControlLayout>(R.id.slide_control_layout)
-    }
+    private val mSlideControlLayout by bindView<SlideControlLayout>(R.id.slide_control_layout)
     /** 视频播放器 */
-    private val mVideoPlayer: IVideoPlayer by lazy {
-        findViewById<MmsVideoView>(R.id.video_view)
-    }
+    private val mVideoPlayer: IVideoPlayer by bindView<MmsVideoView>(R.id.video_view)
     /** 顶部菜单 */
-    private val mVideoTopMenuLayout by lazy {
-        findViewById<VideoTopMenuLayout>(R.id.top_menu_layout)
-    }
+    private val mVideoTopMenuLayout by bindView<VideoTopMenuLayout>(R.id.top_menu_layout)
     /** 底部菜单 */
-    private val mBottomMenuLayout by lazy {
-        findViewById<VideoBottomMenuLayout>(R.id.bottom_menu_layout)
-    }
+    private val mBottomMenuLayout by bindView<VideoBottomMenuLayout>(R.id.bottom_menu_layout)
     /** 进度调整页面 */
-    private val mAdjustProgressLayout by lazy {
-        findViewById<VideoAdjustProgressLayout>(R.id.adjust_progress_lyout)
-    }
+    private val mAdjustProgressLayout by bindView<VideoAdjustProgressLayout>(R.id.adjust_progress_lyout)
     /** 加载框 */
-    private val mmBufferProgressBar by lazy {
-        findViewById<ProgressBar>(R.id.buffer_progress_bar)
-    }
+    private val mmBufferProgressBar by bindView<ProgressBar>(R.id.buffer_progress_bar)
     /** 亮度页面 */
-    private val mVideoBrightnessLayout by lazy {
-        findViewById<VideoBrightnessLayout>(R.id.video_brightness_layout)
-    }
+    private val mVideoBrightnessLayout by bindView<VideoBrightnessLayout>(R.id.video_brightness_layout)
     /** 音量页面 */
-    private val mVideoVolumeLayout by lazy {
-        findViewById<VideoVolumeLayout>(R.id.video_volume_layout)
-    }
+    private val mVideoVolumeLayout by bindView<VideoVolumeLayout>(R.id.video_volume_layout)
 
     /** Activity */
     private var mActivity: Activity? = null

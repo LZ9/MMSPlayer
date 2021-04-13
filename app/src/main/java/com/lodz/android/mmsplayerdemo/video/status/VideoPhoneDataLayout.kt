@@ -9,6 +9,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
+import androidx.recyclerview.widget.RecyclerView
+import com.lodz.android.corekt.anko.bindView
 import com.lodz.android.mmsplayerdemo.R
 
 /**
@@ -18,14 +20,10 @@ import com.lodz.android.mmsplayerdemo.R
 class VideoPhoneDataLayout : LinearLayout {
 
     /** 返回按钮 */
-    private val mBackBtn by lazy {
-        findViewById<ImageView>(R.id.back_btn)
-    }
+    private val mBackBtn by bindView<ImageView>(R.id.back_btn)
 
     /** 流量播放按钮 */
-    private val mPlayBtn by lazy {
-        findViewById<ViewGroup>(R.id.play_btn)
-    }
+    private val mPlayBtn by bindView<ViewGroup>(R.id.play_btn)
 
     /** 返回按钮监听器 */
     private var mBackListener: View.OnClickListener? = null

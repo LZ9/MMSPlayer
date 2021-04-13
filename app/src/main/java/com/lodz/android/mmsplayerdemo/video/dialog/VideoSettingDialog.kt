@@ -4,11 +4,13 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.DialogInterface
 import android.widget.RadioGroup
-import com.lodz.android.component.widget.dialog.BaseRightDialog
+import android.widget.TextView
+import com.lodz.android.corekt.anko.bindView
 import com.lodz.android.mmsplayer.ijk.media.IRenderView
 import com.lodz.android.mmsplayer.ijk.setting.IjkPlayerSetting
 import com.lodz.android.mmsplayerdemo.R
 import com.lodz.android.mmsplayerdemo.config.Constant
+import com.lodz.android.pandora.widget.dialog.BaseRightDialog
 
 /**
  * 播放器设置弹框
@@ -17,20 +19,22 @@ import com.lodz.android.mmsplayerdemo.config.Constant
 class VideoSettingDialog(context: Context) : BaseRightDialog(context, R.style.NoDimDialog) {
 
     /** 播放类型 */
-    private lateinit var mPlayTypeRg : RadioGroup
+    private val mPlayTypeRg by bindView<RadioGroup>(R.id.play_type_rg)
     /** 宽高比 */
-    private lateinit var mAspectRatioRg : RadioGroup
-
+    private val mAspectRatioRg by bindView<RadioGroup>(R.id.aspect_ratio_rg)
 
     /** 监听器 */
     private var mListener: Listener? = null
 
-    override fun getLayoutId(): Int = R.layout.dialog_video_setting
+    /** 播放类型 */
+    @Constant.PlayType
+    private var mPlayType: Int = Constant.UN_NEXT
 
-    override fun findViews() {
-        mPlayTypeRg = findViewById(R.id.play_type_rg)
-        mAspectRatioRg = findViewById(R.id.aspect_ratio_rg)
-    }
+    /** 宽高比 */
+    @IjkPlayerSetting.AspectRatioType
+    private var mAspectRatioType: Int = IRenderView.AR_ASPECT_FIT_PARENT
+
+    override fun getLayoutId(): Int = R.layout.dialog_video_setting
 
     override fun setListeners() {
         super.setListeners()
@@ -69,14 +73,14 @@ class VideoSettingDialog(context: Context) : BaseRightDialog(context, R.style.No
 
     override fun initData() {
         super.initData()
-        setPlayType(Constant.UN_NEXT)
-        setAspectRatio(IRenderView.AR_ASPECT_FIT_PARENT)
+        setPlayType(mPlayType)
+        setAspectRatio(mAspectRatioType)
     }
 
     /** 初始化播放类型[playType]和宽高比[aspectRatioType] */
     fun init(@Constant.PlayType playType: Int, @IjkPlayerSetting.AspectRatioType aspectRatioType: Int){
-        setPlayType(playType)
-        setAspectRatio(aspectRatioType)
+        mPlayType = playType
+        mAspectRatioType = aspectRatioType
     }
 
     /** 设置播放类型[playType] */

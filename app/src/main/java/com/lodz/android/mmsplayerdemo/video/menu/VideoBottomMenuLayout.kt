@@ -11,7 +11,8 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.SeekBar
 import android.widget.TextView
-import com.lodz.android.core.utils.AnimUtils
+import com.lodz.android.corekt.anko.bindView
+import com.lodz.android.corekt.anko.startAnim
 import com.lodz.android.mmsplayer.ijk.utils.MediaInfoUtils
 import com.lodz.android.mmsplayerdemo.R
 import com.lodz.android.mmsplayerdemo.video.view.MediaView
@@ -29,25 +30,15 @@ import java.util.concurrent.TimeUnit
 class VideoBottomMenuLayout : LinearLayout {
 
     /** 开始播放 */
-    private val mPlayBtn by lazy {
-        findViewById<ImageView>(R.id.play_btn)
-    }
+    private val mPlayBtn by bindView<ImageView>(R.id.play_btn)
     /** 暂停播放 */
-    private val mPauseBtn by lazy {
-        findViewById<ImageView>(R.id.pause_btn)
-    }
+    private val mPauseBtn by bindView<ImageView>(R.id.pause_btn)
     /** 进度条 */
-    private val mSeekBar by lazy {
-        findViewById<SeekBar>(R.id.seek_bar)
-    }
+    private val mSeekBar by bindView<SeekBar>(R.id.seek_bar)
     /** 播放时间 */
-    private val mPlayTimeTv by lazy {
-        findViewById<TextView>(R.id.play_time_tv)
-    }
+    private val mPlayTimeTv by bindView<TextView>(R.id.play_time_tv)
     /** 缩放按钮 */
-    private val mScreenBtn by lazy {
-        findViewById<ImageView>(R.id.screen_btn)
-    }
+    private val mScreenBtn by bindView<ImageView>(R.id.screen_btn)
 
     /** 监听器 */
     private var mListener: Listener? = null
@@ -160,14 +151,14 @@ class VideoBottomMenuLayout : LinearLayout {
     /** 显示菜单 */
     fun show() {
         if (!isShow()) {
-            AnimUtils.startAnim(context, this, if (isFullScreen) R.anim.anim_bottom_in else R.anim.anim_fade_in, View.VISIBLE)
+            startAnim(context, if (isFullScreen) R.anim.anim_bottom_in else R.anim.anim_fade_in, View.VISIBLE)
         }
     }
 
     /** 隐藏菜单 */
     fun hide() {
         if (isShow()) {
-            AnimUtils.startAnim(context, this, if (isFullScreen) R.anim.anim_bottom_out else R.anim.anim_fade_out, View.GONE)
+            startAnim(context, if (isFullScreen) R.anim.anim_bottom_out else R.anim.anim_fade_out, View.GONE)
         }
     }
 

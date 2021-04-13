@@ -8,6 +8,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.viewpager.widget.ViewPager
+import com.lodz.android.corekt.anko.bindView
 import com.lodz.android.mmsplayer.ijk.utils.MediaInfoUtils
 import com.lodz.android.mmsplayerdemo.R
 
@@ -24,9 +26,7 @@ class VideoAdjustProgressLayout : LinearLayout {
     constructor(context: Context?, attrs: AttributeSet?, defStyleAttr: Int, defStyleRes: Int) : super(context, attrs, defStyleAttr, defStyleRes)
 
     /** 进度 */
-    private val mProgressTv by lazy {
-        findViewById<TextView>(R.id.progress_tv)
-    }
+    private val mProgressTv by bindView<TextView>(R.id.progress_tv)
 
     /** 总进度  */
     private var mDuration: Long = 0

@@ -8,8 +8,10 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.view.WindowManager
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ProgressBar
+import com.lodz.android.corekt.anko.bindView
 import com.lodz.android.mmsplayerdemo.R
 
 /**
@@ -19,9 +21,7 @@ import com.lodz.android.mmsplayerdemo.R
 class VideoBrightnessLayout : LinearLayout {
 
     /** 亮度进度条 */
-    private val mBrightnessProgressBar by lazy {
-        findViewById<ProgressBar>(R.id.brightness_pb)
-    }
+    private val mBrightnessProgressBar by bindView<ProgressBar>(R.id.brightness_pb)
 
     constructor(context: Context?) : super(context)
     constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs)

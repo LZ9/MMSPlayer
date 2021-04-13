@@ -13,7 +13,7 @@
         android:contentDescription="@string/app_name"
         android:paddingStart="10dp"
         android:paddingEnd="10dp"
-        android:src="@drawable/component_selector_btn_back" />
+        android:src="@drawable/pandora_selector_btn_back" />
 
     <!-- 标题 -->
     <TextView

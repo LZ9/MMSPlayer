@@ -9,7 +9,8 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import com.lodz.android.core.utils.AnimUtils
+import com.lodz.android.corekt.anko.bindView
+import com.lodz.android.corekt.anko.startAnim
 import com.lodz.android.mmsplayerdemo.R
 
 /**
@@ -19,14 +20,10 @@ import com.lodz.android.mmsplayerdemo.R
 class VideoErrorLayout : LinearLayout {
 
     /** 返回按钮 */
-    private val mBackBtn by lazy {
-        findViewById<ImageView>(R.id.back_btn)
-    }
+    private val mBackBtn by bindView<ImageView>(R.id.back_btn)
 
     /** 重试按钮 */
-    private val mRetryBtn by lazy {
-        findViewById<TextView>(R.id.retry_btn)
-    }
+    private val mRetryBtn by bindView<TextView>(R.id.retry_btn)
 
     /** 返回按钮监听器 */
     private var mBackListener: View.OnClickListener? = null
@@ -74,7 +71,7 @@ class VideoErrorLayout : LinearLayout {
     /** 显示播放失败页 */
     fun show() {
         if (!isShow()) {
-            AnimUtils.startAnim(context, this, R.anim.anim_fade_in, View.VISIBLE)
+            startAnim(context, R.anim.anim_fade_in, View.VISIBLE)
         }
     }
 

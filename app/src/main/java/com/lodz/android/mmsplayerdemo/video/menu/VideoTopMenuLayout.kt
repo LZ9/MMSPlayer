@@ -17,10 +17,11 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
-import com.lodz.android.core.network.NetInfo
-import com.lodz.android.core.network.NetworkManager
-import com.lodz.android.core.utils.AnimUtils
-import com.lodz.android.core.utils.DateUtils
+import com.lodz.android.corekt.anko.bindView
+import com.lodz.android.corekt.anko.startAnim
+import com.lodz.android.corekt.network.NetInfo
+import com.lodz.android.corekt.network.NetworkManager
+import com.lodz.android.corekt.utils.DateUtils
 import com.lodz.android.mmsplayerdemo.R
 import com.lodz.android.mmsplayerdemo.video.view.MediaView
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -37,33 +38,19 @@ import java.util.concurrent.TimeUnit
 class VideoTopMenuLayout : LinearLayout {
 
     /** 返回按钮 */
-    private val mBackBtn by lazy {
-        findViewById<ImageView>(R.id.back_btn)
-    }
+    private val mBackBtn by bindView<ImageView>(R.id.back_btn)
     /** 标题栏 */
-    private val mTitleTv by lazy {
-        findViewById<TextView>(R.id.title_tv)
-    }
+    private val mTitleTv by bindView<TextView>(R.id.title_tv)
     /** 信息栏 */
-    private val mInfoLayout by lazy {
-        findViewById<ViewGroup>(R.id.info_layout)
-    }
+    private val mInfoLayout by bindView<ViewGroup>(R.id.info_layout)
     /** 时间 */
-    private val mTimeTv by lazy {
-        findViewById<TextView>(R.id.time_tv)
-    }
+    private val mTimeTv by bindView<TextView>(R.id.time_tv)
     /** 网络状态 */
-    private val mNetworkTypeTv by lazy {
-        findViewById<TextView>(R.id.network_type_tv)
-    }
+    private val mNetworkTypeTv by bindView<TextView>(R.id.network_type_tv)
     /** 电量图标 */
-    private val mBatteryImg by lazy {
-        findViewById<ImageView>(R.id.battery_img)
-    }
+    private val mBatteryImg by bindView<ImageView>(R.id.battery_img)
     /** 设置按钮 */
-    private val mSettingBtn by lazy {
-        findViewById<ImageView>(R.id.setting_btn)
-    }
+    private val mSettingBtn by bindView<ImageView>(R.id.setting_btn)
 
     /** 返回按钮监听器 */
     private var mBackListener: View.OnClickListener? = null
@@ -86,11 +73,10 @@ class VideoTopMenuLayout : LinearLayout {
     constructor(context: Context?, attrs: AttributeSet?, defStyleAttr: Int, defStyleRes: Int) : super(context, attrs, defStyleAttr, defStyleRes)
 
     /** 网络状态变化监听器 */
-    private val mNetworkListener = object : NetworkManager.NetworkListener {
-        override fun onNetworkStatusChanged(isNetworkAvailable: Boolean, netInfo: NetInfo?) {
+    private val mNetworkListener =
+        NetworkManager.NetworkListener { isNetworkAvailable, netInfo ->
             updateNetworkTypeText()// 更新网络状态提示
         }
-    }
 
     init {
         LayoutInflater.from(context).inflate(R.layout.view_video_top_menu, this)
@@ -149,14 +135,14 @@ class VideoTopMenuLayout : LinearLayout {
     /** 显示顶部菜单 */
     fun show() {
         if (!isShow()) {
-            AnimUtils.startAnim(context, this, if (isFullScreen) R.anim.anim_top_in else R.anim.anim_fade_in, View.VISIBLE)
+            startAnim(context, if (isFullScreen) R.anim.anim_top_in else R.anim.anim_fade_in, View.VISIBLE)
         }
     }
 
     /** 隐藏顶部菜单 */
     fun hide() {
         if (isShow()) {
-            AnimUtils.startAnim(context, this, if (isFullScreen) R.anim.anim_top_out else R.anim.anim_fade_out, View.GONE)
+            startAnim(context, if (isFullScreen) R.anim.anim_top_out else R.anim.anim_fade_out, View.GONE)
         }
     }
 
@@ -238,7 +224,7 @@ class VideoTopMenuLayout : LinearLayout {
     }
 
     /** 根据网络类型获取对应的文字 */
-    private fun getNetworkTextByType(): String = when (NetworkManager.get().netType) {
+    private fun getNetworkTextByType(): String = when (NetworkManager.get().getNetType()) {
         NetInfo.NETWORK_TYPE_NONE -> context.getString(R.string.video_network_type_offline)
         NetInfo.NETWORK_TYPE_WIFI -> context.getString(R.string.video_network_type_wifi)
         NetInfo.NETWORK_TYPE_4G -> context.getString(R.string.video_network_type_4g)
