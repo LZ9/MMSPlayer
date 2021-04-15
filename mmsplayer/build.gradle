@@ -1,5 +1,5 @@
 apply plugin: 'com.android.library'
-//apply plugin: 'com.novoda.bintray-release'
+//apply from: 'publish.gradle'
 
 android {
     compileSdkVersion 30
@@ -8,7 +8,7 @@ android {
         minSdkVersion 19
         targetSdkVersion 30
         versionCode 8
-        versionName "1.0.8"// 未上传
+        versionName "1.0.8"// 已上传
     }
     buildTypes {
         release {
@@ -35,12 +35,3 @@ dependencies {
 //    implementation 'tv.danmaku.ijk.media:ijkplayer-x86:0.8.8'
 //    implementation 'tv.danmaku.ijk.media:ijkplayer-x86_64:0.8.8'
 }
-
-//publish {
-//    userOrg = 'lz9'
-//    groupId = 'cn.lodz'
-//    artifactId = 'mmsplayer'
-//    publishVersion = '1.0.7'
-//    desc = 'Hi, this is a vido play lib'
-//    website = 'https://github.com/LZ9/VideoDemo'
-//}
