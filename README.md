@@ -9,6 +9,7 @@
 - [扩展](https://github.com/LZ9/MMSPlayer#扩展)
 
 ## 1、添加Gradle依赖
+由于jcenter删库跑路，请大家添加mavenCentral依赖，并引用最新版本（为了配合迁移，引用的域名从**cn.lodz**改为**ink.lodz**）
 ```
     repositories {
         ...
