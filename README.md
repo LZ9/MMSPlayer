@@ -18,7 +18,7 @@
     }
 ```
 ```
-    implementation 'ink.lodz:mmsplayer:1.0.8'
+    implementation 'ink.lodz:mmsplayer:1.1.0'
 ```
 
 ## 2、使用方法

@@ -32,14 +32,12 @@ public class IjkPlayerSetting {
 
     //--------------------------- 播放器设置 -----------------------------------
     @Retention(RetentionPolicy.SOURCE)
-    @IntDef({PlayerType.PALY_ANDROID_MEDIA, PlayerType.PLAY_IJK, PlayerType.PLAY_EXO})
+    @IntDef({PlayerType.PALY_ANDROID_MEDIA, PlayerType.PLAY_IJK})
     public @interface PlayerType {
         /** android原生播放器 */
         int PALY_ANDROID_MEDIA = 1;
         /** Ijk播放器 */
         int PLAY_IJK = 2;
-        /** exo播放器 */
-        int PLAY_EXO = 3;
     }
 
     /** 播放器类型 */

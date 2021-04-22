@@ -16,7 +16,9 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.MediaController;
+
 import androidx.annotation.NonNull;
+
 import com.lodz.android.mmsplayer.R;
 import com.lodz.android.mmsplayer.ijk.bean.MediaInfoBean;
 import com.lodz.android.mmsplayer.ijk.bean.TrackAudioInfoBean;
@@ -24,7 +26,10 @@ import com.lodz.android.mmsplayer.ijk.bean.TrackVideoInfoBean;
 import com.lodz.android.mmsplayer.ijk.services.MediaPlayerService;
 import com.lodz.android.mmsplayer.ijk.setting.IjkPlayerSetting;
 import com.lodz.android.mmsplayer.ijk.utils.MediaInfoUtils;
-import tv.danmaku.ijk.media.exo.IjkExoMediaPlayer;
+
+import java.io.File;
+import java.util.Map;
+
 import tv.danmaku.ijk.media.player.AndroidMediaPlayer;
 import tv.danmaku.ijk.media.player.IMediaPlayer;
 import tv.danmaku.ijk.media.player.IjkMediaPlayer;
@@ -33,9 +38,6 @@ import tv.danmaku.ijk.media.player.misc.IMediaDataSource;
 import tv.danmaku.ijk.media.player.misc.IMediaFormat;
 import tv.danmaku.ijk.media.player.misc.ITrackInfo;
 import tv.danmaku.ijk.media.player.misc.IjkMediaFormat;
-
-import java.io.File;
-import java.util.Map;
 
 /**
  * IJK播放控件
@@ -1005,9 +1007,6 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
             case IjkPlayerSetting.PlayerType.PLAY_IJK:
                 text = context.getString(R.string.mmsplayer_videoview_player_ijkmediaplayer);
                 break;
-            case IjkPlayerSetting.PlayerType.PLAY_EXO:
-                text = context.getString(R.string.mmsplayer_videoview_player_ijkexomediaplayer);
-                break;
             default:
                 text = context.getString(R.string.mmsplayer_n_a);
                 break;
@@ -1019,9 +1018,6 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
         IMediaPlayer mediaPlayer = null;
 
         switch (playerType) {
-            case IjkPlayerSetting.PlayerType.PLAY_EXO:
-                mediaPlayer = new IjkExoMediaPlayer(mAppContext);
-                break;
             case IjkPlayerSetting.PlayerType.PALY_ANDROID_MEDIA:
                 mediaPlayer = new AndroidMediaPlayer();
                 break;

@@ -36,8 +36,8 @@ android {
 
 dependencies {
     implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.4.32'
-    implementation 'com.lodz:pandora:1.6.1'
+    implementation 'ink.lodz:pandora:1.6.3'
 
     implementation project(':mmsplayer')
-//    implementation 'cn.lodz:mmsplayer:1.0.6'
+//    implementation 'ink.lodz:mmsplayer:1.1.0'
 }
