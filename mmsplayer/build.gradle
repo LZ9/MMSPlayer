@@ -2,11 +2,10 @@ apply plugin: 'com.android.library'
 //apply from: 'publish.gradle'
 
 android {
-    compileSdkVersion 31
-    buildToolsVersion "31.0.0"
+    compileSdkVersion 32
     defaultConfig {
         minSdkVersion 19
-        targetSdkVersion 31
+        targetSdkVersion 32
         versionCode 11
         versionName "1.1.1"// 未上传
     }
