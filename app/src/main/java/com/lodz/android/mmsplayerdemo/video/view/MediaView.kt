@@ -36,6 +36,7 @@ import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Observer
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
+import tv.danmaku.ijk.media.player.IMediaPlayer
 import java.util.concurrent.TimeUnit
 
 /**
@@ -146,6 +147,10 @@ class MediaView : FrameLayout {
                 mVideoLoadingLayout.hide()
                 mBreakPosition = mVideoPlayer.breakPosition
                 Log.v(MediaView.TAG, "播放器 ---> 中断进度：$mBreakPosition   播放异常：$msg")
+            }
+
+            override fun onMediaPlayerCreated(mediaPlayer: IMediaPlayer) {
+                // do something
             }
 
         })

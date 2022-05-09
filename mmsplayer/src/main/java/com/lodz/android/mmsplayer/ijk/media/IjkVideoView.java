@@ -356,6 +356,7 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
             // target state that was there before.
             mCurrentState = STATE_PREPARING;
             attachMediaController();
+            onMediaPlayerCreated(mMediaPlayer);
         } catch (Exception ex) {
             Log.w(TAG, "Unable to open content: " + mUri, ex);
             mCurrentState = STATE_ERROR;
@@ -364,6 +365,9 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
         } finally {
             // REMOVED: mPendingSubtitleTracks.clear();
         }
+    }
+
+    public void onMediaPlayerCreated(IMediaPlayer mMediaPlayer) {
     }
 
     public void setMediaController(IMediaController controller) {

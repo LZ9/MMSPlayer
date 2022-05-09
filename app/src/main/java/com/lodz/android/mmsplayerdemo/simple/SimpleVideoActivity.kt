@@ -8,6 +8,7 @@ import com.lodz.android.mmsplayer.contract.IVideoPlayer
 import com.lodz.android.mmsplayer.impl.MmsVideoView
 import com.lodz.android.mmsplayerdemo.R
 import com.lodz.android.pandora.base.activity.AbsActivity
+import tv.danmaku.ijk.media.player.IMediaPlayer
 
 /**
  * 基础播放器界面
@@ -47,6 +48,10 @@ class SimpleVideoActivity : AbsActivity() {
 
             override fun onError(errorType: Int, msg: String?) {
                 toastShort(getString(R.string.simple_error, msg))
+            }
+
+            override fun onMediaPlayerCreated(mediaPlayer: IMediaPlayer) {
+                // do something
             }
         })
     }

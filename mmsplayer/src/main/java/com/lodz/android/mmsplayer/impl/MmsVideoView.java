@@ -3,22 +3,28 @@ package com.lodz.android.mmsplayer.impl;
 import android.content.Context;
 import android.media.MediaPlayer;
 import android.util.AttributeSet;
+
 import androidx.annotation.IntDef;
+import androidx.annotation.NonNull;
+
 import com.lodz.android.mmsplayer.R;
 import com.lodz.android.mmsplayer.contract.IVideoPlayer;
 import com.lodz.android.mmsplayer.ijk.media.IjkVideoView;
 import com.lodz.android.mmsplayer.ijk.setting.IjkPlayerSetting;
-import tv.danmaku.ijk.media.player.IMediaPlayer;
-import tv.danmaku.ijk.media.player.IjkMediaPlayer;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+
+import tv.danmaku.ijk.media.player.IMediaPlayer;
+import tv.danmaku.ijk.media.player.IjkMediaPlayer;
 
 /**
  * 播放器
  * Created by zhouL on 2017/2/15.
  */
 public class MmsVideoView extends IjkVideoView implements IVideoPlayer {
+
+    private Listener mListener;
 
     public MmsVideoView(Context context) {
         super(context);
@@ -51,6 +57,7 @@ public class MmsVideoView extends IjkVideoView implements IVideoPlayer {
 
     @Override
     public void setListener(final Listener listener) {
+        mListener = listener;
         if (listener == null) {
             return;
         }
@@ -113,6 +120,14 @@ public class MmsVideoView extends IjkVideoView implements IVideoPlayer {
         }
     }
 
+    @Override
+    public void onMediaPlayerCreated(IMediaPlayer mMediaPlayer) {
+        super.onMediaPlayerCreated(mMediaPlayer);
+        if (mListener != null) {
+            mListener.onMediaPlayerCreated(mMediaPlayer);
+        }
+    }
+
     public interface Listener {
         @Retention(RetentionPolicy.SOURCE)
         @IntDef({ErrorType.UNKNOWN, ErrorType.INVALID_PROGRESSIVE_PLAYBACK, ErrorType.NETWORK_ERROR})
@@ -153,6 +168,8 @@ public class MmsVideoView extends IjkVideoView implements IVideoPlayer {
          */
         void onError(@ErrorType int errorType, String msg);
 
+        /** MediaPlayer创建 */
+        void onMediaPlayerCreated(@NonNull IMediaPlayer mediaPlayer);
     }
 
 }
