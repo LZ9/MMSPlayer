@@ -1,5 +1,11 @@
 # MMSPlayer更新记录
 
+##### 2022/05/09
+1. 升级工程和依赖库
+2. 适配android12
+3. 监听器增加onMediaPlayerCreated回调，将创建后的IMediaPlayer返回给外部
+4. 发布1.1.1版本
+
 ##### 2021/04/22
 1. ijk改用源码引用，剥离jcenter依赖
 2. 发布1.1.0版本

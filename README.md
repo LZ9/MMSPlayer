@@ -18,7 +18,7 @@
     }
 ```
 ```
-    implementation 'ink.lodz:mmsplayer:1.1.0'
+    implementation 'ink.lodz:mmsplayer:1.1.1'
 ```
 
 ## 2、使用方法
@@ -72,7 +72,10 @@
         override fun onError(errorType: Int, msg: String?) {
             // 播放出现异常
         }
-
+        
+        override fun onMediaPlayerCreated(mediaPlayer: IMediaPlayer) {
+            // MediaPlayer创建完成
+        }
     })
 
     // 设置播放路径

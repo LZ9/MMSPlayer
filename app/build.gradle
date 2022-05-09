@@ -37,5 +37,5 @@ dependencies {
     implementation 'ink.lodz:pandora:1.8.7'
 
     implementation project(':mmsplayer')
-//    implementation 'ink.lodz:mmsplayer:1.1.0'
+//    implementation 'ink.lodz:mmsplayer:1.1.1'
 }
