@@ -212,4 +212,10 @@ public interface IMediaPlayer {
      * AndroidMediaPlayer: M:
      */
     void setDataSource(IMediaDataSource mediaDataSource);
+
+    /**
+     * 设置倍数
+     * @param speed 倍数
+     */
+    void setSpeed(float speed);
 }

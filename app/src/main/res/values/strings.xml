@@ -50,7 +50,13 @@
     <string name="dialog_setting_aspect_ratio_full">全屏</string>
     <string name="dialog_setting_aspect_ratio_16_9">16：9</string>
     <string name="dialog_setting_aspect_ratio_4_3">4：3</string>
-
+    <string name="dialog_setting_speed_title">倍数</string>
+    <string name="dialog_setting_speed_05">0.5X</string>
+    <string name="dialog_setting_speed_075">0.75X</string>
+    <string name="dialog_setting_speed_10">1.0X</string>
+    <string name="dialog_setting_speed_125">1.25X</string>
+    <string name="dialog_setting_speed_15">1.5X</string>
+    <string name="dialog_setting_speed_20">2.0X</string>
 
 
 </resources>

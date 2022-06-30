@@ -171,4 +171,116 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/color_d9d9d9" />
+
+    <RadioGroup
+        android:id="@+id/speed_rg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <RadioButton
+            android:id="@+id/speed_05_rb"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="2dp"
+            android:layout_weight="1"
+            android:background="@drawable/selector_bg_dialog_setting_item"
+            android:button="@null"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:maxLines="1"
+            android:text="@string/dialog_setting_speed_05"
+            android:textColor="@drawable/selector_text_dialog_setting_item"
+            android:textSize="13sp" />
+
+        <RadioButton
+            android:id="@+id/speed_075_rb"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="2dp"
+            android:layout_weight="1"
+            android:background="@drawable/selector_bg_dialog_setting_item"
+            android:button="@null"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:maxLines="1"
+            android:text="@string/dialog_setting_speed_075"
+            android:textColor="@drawable/selector_text_dialog_setting_item"
+            android:textSize="13sp" />
+
+        <RadioButton
+            android:id="@+id/speed_10_rb"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="2dp"
+            android:layout_weight="1"
+            android:background="@drawable/selector_bg_dialog_setting_item"
+            android:button="@null"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:maxLines="1"
+            android:text="@string/dialog_setting_speed_10"
+            android:textColor="@drawable/selector_text_dialog_setting_item"
+            android:textSize="13sp" />
+
+        <RadioButton
+            android:id="@+id/speed_125_rb"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="4dp"
+            android:layout_weight="1"
+            android:background="@drawable/selector_bg_dialog_setting_item"
+            android:button="@null"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:maxLines="1"
+            android:text="@string/dialog_setting_speed_125"
+            android:textColor="@drawable/selector_text_dialog_setting_item"
+            android:textSize="13sp" />
+
+        <RadioButton
+            android:id="@+id/speed_15_rb"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="4dp"
+            android:layout_weight="1"
+            android:background="@drawable/selector_bg_dialog_setting_item"
+            android:button="@null"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:maxLines="1"
+            android:text="@string/dialog_setting_speed_15"
+            android:textColor="@drawable/selector_text_dialog_setting_item"
+            android:textSize="13sp" />
+
+        <RadioButton
+            android:id="@+id/speed_20_rb"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="4dp"
+            android:layout_weight="1"
+            android:background="@drawable/selector_bg_dialog_setting_item"
+            android:button="@null"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:maxLines="1"
+            android:text="@string/dialog_setting_speed_20"
+            android:textColor="@drawable/selector_text_dialog_setting_item"
+            android:textSize="13sp" />
+
+    </RadioGroup>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/color_d9d9d9"
+        android:visibility="gone" />
 </LinearLayout>

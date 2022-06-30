@@ -89,6 +89,8 @@ class MediaView : FrameLayout {
     private var mPlayType = Constant.UN_NEXT
     /** 宽高比 */
     private var mAspectRatioType = IRenderView.AR_ASPECT_FIT_PARENT
+    /** 倍数 */
+    private var mSpeedType = Constant.SPEED_1_0X
 
     constructor(context: Context) : super(context)
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
@@ -454,7 +456,7 @@ class MediaView : FrameLayout {
     /** 显示设置菜单 */
     private fun showSettingDialog() {
         val dialog = VideoSettingDialog(context)
-        dialog.init(mPlayType, mAspectRatioType)
+        dialog.init(mPlayType, mAspectRatioType, mSpeedType)
         dialog.setListener(object : VideoSettingDialog.Listener {
             override fun onPlayTypeChanged(playType: Int) {
                 mPlayType = playType
@@ -465,6 +467,11 @@ class MediaView : FrameLayout {
                     mVideoPlayer.setAspectRatio(aspectRatioType)
                     mAspectRatioType = aspectRatioType
                 }
+            }
+
+            override fun onSpeedTypeChanged(speedType: String) {
+                mSpeedType = speedType
+                mVideoPlayer.setSpeed(speedType.toFloat())
             }
 
             override fun onCancel(dialog: DialogInterface) {

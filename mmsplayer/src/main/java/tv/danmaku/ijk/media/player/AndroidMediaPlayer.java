@@ -23,6 +23,7 @@ import android.content.Context;
 import android.media.AudioManager;
 import android.media.MediaDataSource;
 import android.media.MediaPlayer;
+import android.media.PlaybackParams;
 import android.media.TimedText;
 import android.net.Uri;
 import android.os.Build;
@@ -119,6 +120,15 @@ public class AndroidMediaPlayer extends AbstractMediaPlayer {
 
         mMediaDataSource = new MediaDataSourceProxy(mediaDataSource);
         mInternalMediaPlayer.setDataSource(mMediaDataSource);
+    }
+
+    @Override
+    public void setSpeed(float speed) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && mInternalMediaPlayer != null) {
+            PlaybackParams params = mInternalMediaPlayer.getPlaybackParams();
+            params.setSpeed(speed).setPitch(0);
+            mInternalMediaPlayer.setPlaybackParams(params);
+        }
     }
 
     @TargetApi(Build.VERSION_CODES.M)

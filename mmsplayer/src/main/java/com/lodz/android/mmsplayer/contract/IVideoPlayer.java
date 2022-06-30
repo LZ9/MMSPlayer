@@ -92,4 +92,10 @@ public interface IVideoPlayer {
      * @param position 进度
      */
     void seekAndStart(long position);
+
+    /**
+     * 设置倍数（未生效，请勿调用）
+     * @param speed 倍数
+     */
+    void setSpeed(float speed);
 }
