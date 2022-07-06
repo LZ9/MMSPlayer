@@ -2,6 +2,7 @@ package com.lodz.android.mmsplayerdemo.simple
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import com.lodz.android.corekt.anko.bindView
 import com.lodz.android.corekt.anko.toastShort
 import com.lodz.android.mmsplayer.contract.IVideoPlayer
@@ -17,8 +18,12 @@ import tv.danmaku.ijk.media.player.IMediaPlayer
 class SimpleVideoActivity : AbsActivity() {
 
     companion object {
-        fun start(context: Context){
+
+        private const val EXTRA_VIDEO_PATH = "extra_video_path"
+
+        fun start(context: Context, uri: Uri) {
             val intent = Intent(context, SimpleVideoActivity::class.java)
+            intent.putExtra(EXTRA_VIDEO_PATH, uri)
             context.startActivity(intent)
         }
     }
@@ -58,8 +63,13 @@ class SimpleVideoActivity : AbsActivity() {
 
     override fun initData() {
         super.initData()
+        val uri = intent.getParcelableExtra<Uri>(EXTRA_VIDEO_PATH)
+        if (uri == null){
+            toastShort("获取路径失败")
+            return
+        }
         mVideoPlayer.init()
-        mVideoPlayer.setVideoPath("http://9890.vod.myqcloud.com/9890_4e292f9a3dd011e6b4078980237cc3d3.f20.mp4")
+        mVideoPlayer.setVideoURI(uri)
         mVideoPlayer.start()
     }
 

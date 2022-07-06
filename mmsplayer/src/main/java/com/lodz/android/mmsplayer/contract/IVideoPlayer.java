@@ -1,6 +1,8 @@
 package com.lodz.android.mmsplayer.contract;
 
 import android.content.Context;
+import android.net.Uri;
+
 import com.lodz.android.mmsplayer.ijk.bean.MediaInfoBean;
 import com.lodz.android.mmsplayer.ijk.media.IMediaController;
 import com.lodz.android.mmsplayer.ijk.setting.IjkPlayerSetting;
@@ -23,6 +25,9 @@ public interface IVideoPlayer {
 
     /** 设置播放路径 */
     void setVideoPath(String path);
+
+    /** 设置播放路径 */
+    void setVideoURI(Uri uri);
 
     /** 开始播放 */
     void start();
