@@ -18,7 +18,7 @@
     }
 ```
 ```
-    implementation 'ink.lodz:mmsplayer:1.1.1'
+    implementation 'ink.lodz:mmsplayer:1.1.2'
 ```
 
 ## 2、使用方法
@@ -78,8 +78,11 @@
         }
     })
 
-    // 设置播放路径
+    // 设置网络播放路径
     mVideoPlayer.setVideoPath(url)
+    
+    // 设置手机文件资源播放路径
+    mVideoPlayer.setVideoURI(uri)
 
     // 开始播放
     mVideoPlayer.start()
