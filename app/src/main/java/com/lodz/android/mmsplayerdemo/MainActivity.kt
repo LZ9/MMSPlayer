@@ -35,7 +35,7 @@ class MainActivity : BaseActivity() {
         }
 
         mWidgetBtn.setOnClickListener {
-            VideoActivity.start(this, getString(R.string.info_name), "http://9890.vod.myqcloud.com/9890_4e292f9a3dd011e6b4078980237cc3d3.f20.mp4")
+            VideoActivity.start(this, getString(R.string.info_name), "https://static.www.tencent.com/uploads/2021/09/17/2a59c30bc897b54b072eb3d96c2af4e5.mp4")
         }
     }
 

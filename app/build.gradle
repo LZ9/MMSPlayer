@@ -7,7 +7,7 @@ android {
     defaultConfig {
         applicationId "com.lodz.android.mmsplayerdemo"
         minSdkVersion 21
-        targetSdkVersion 32
+        targetSdkVersion 33
         versionCode 1
         versionName "1.0"
         multiDexEnabled = true// 启用dex分包
@@ -35,7 +35,7 @@ android {
 }
 
 dependencies {
-    implementation 'ink.lodz:pandora:2.0.0'
+    implementation 'ink.lodz:pandora:2.0.3'
 
     implementation project(':mmsplayer')
 //    implementation 'ink.lodz:mmsplayer:1.1.1'

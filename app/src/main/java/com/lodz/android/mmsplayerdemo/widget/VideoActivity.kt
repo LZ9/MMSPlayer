@@ -160,7 +160,6 @@ class VideoActivity : AbsActivity() {
         mMediaView.setTitle(mVideoName)
         mMediaView.setFullScreen(false)
         mMediaView.setVideoPath(mVideoPath)
-        mMediaView.seekTo(30 * 1000)
         mVideoPhoneDataLayout.needBackBtn(false)
     }
 
