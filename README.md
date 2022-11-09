@@ -157,6 +157,25 @@
 - [VideoActivity.kt](https://github.com/LZ9/MMSPlayer/blob/master/app/src/main/java/com/lodz/android/mmsplayerdemo/widget/VideoActivity.kt) 我自定义了一些播放器菜单控件，并集成在 [MediaView.kt](https://github.com/LZ9/MMSPlayer/blob/master/app/src/main/java/com/lodz/android/mmsplayerdemo/video/view/MediaView.kt) 里面，供大家参考
 - 大家可以git工程下来，运行查看。
 
+效果图：
+
+<div align="center">
+    <img src="https://github.com/LZ9/MMSPlayer/blob/master/img/1_loading.png?raw=true" height="600"/>
+    <img src="https://github.com/LZ9/MMSPlayer/blob/master/img/2_comment.png?raw=true" height="600"/>
+</div>
+<div align="center">
+    <img src="https://github.com/LZ9/MMSPlayer/blob/master/img/6_full_screen.png?raw=true" width="600"/>
+</div>
+<div align="center">
+    <img src="https://github.com/LZ9/MMSPlayer/blob/master/img/3_brightness_gesture.png?raw=true" width="600"/>
+</div>
+<div align="center">
+    <img src="https://github.com/LZ9/MMSPlayer/blob/master/img/4_volume_gesture.png?raw=true" width="600"/>
+</div>
+<div align="center">
+    <img src="https://github.com/LZ9/MMSPlayer/blob/master/img/5_progress_gesture.png?raw=true" width="600"/>
+</div>
+
 ## 扩展
 - [更新记录](https://github.com/LZ9/MMSPlayer/blob/master/mmsplayer/readme_mmsplayer_update.md)
 - [回到顶部](https://github.com/LZ9/MMSPlayer#mmsplayer播放器)
