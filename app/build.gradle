@@ -2,11 +2,11 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
 android {
-    compileSdkVersion 33
+    compileSdkVersion 34
     defaultConfig {
         applicationId "com.lodz.android.mmsplayerdemo"
         minSdkVersion 21
-        targetSdkVersion 33
+        targetSdkVersion 34
         versionCode 1
         versionName "1.0"
         multiDexEnabled = true// 启用dex分包
@@ -34,7 +34,7 @@ android {
 }
 
 dependencies {
-    implementation 'ink.lodz:pandora:2.0.3'
+    implementation 'ink.lodz:pandora:2.0.4'
 
     implementation project(':mmsplayer')
 //    implementation 'ink.lodz:mmsplayer:1.1.1'
