@@ -21,14 +21,11 @@ class MainActivity : BaseActivity() {
         super.findViews(savedInstanceState)
         getTitleBarLayout().setTitleName(R.string.app_name)
         getTitleBarLayout().setBackgroundColor(getColorCompat(R.color.colorPrimary))
+        getTitleBarLayout().needBackButton(false)
     }
 
     override fun setListeners() {
         super.setListeners()
-        getTitleBarLayout().setOnBackBtnClickListener {
-            finish()
-        }
-
         mBinding.simpleBtn.setOnClickListener {
             mGetContentResult.launch("video/*")
         }

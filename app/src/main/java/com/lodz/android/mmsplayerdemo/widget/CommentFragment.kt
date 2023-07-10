@@ -11,6 +11,8 @@ import com.lodz.android.corekt.utils.DateUtils
 import com.lodz.android.mmsplayerdemo.databinding.FragmentCommentBinding
 import com.lodz.android.pandora.base.fragment.LazyFragment
 import com.lodz.android.pandora.utils.viewbinding.bindingLayout
+import com.lodz.android.pandora.widget.rv.anko.linear
+import com.lodz.android.pandora.widget.rv.anko.setup
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -32,18 +34,11 @@ class CommentFragment : LazyFragment() {
 
     override fun findViews(view: View, savedInstanceState: Bundle?) {
         super.findViews(view, savedInstanceState)
-        initRecyclerView()
+        mAdapter = mBinding.recyclerView
+            .linear()
+            .setup(CommentAdapter(requireContext()))
         mAdapter.setData(getData())
         mAdapter.notifyDataSetChanged()
-    }
-
-    private fun initRecyclerView() {
-        val layoutManager = LinearLayoutManager(context)
-        layoutManager.orientation = RecyclerView.VERTICAL
-        mAdapter = CommentAdapter(requireContext())
-        mBinding.recyclerView.layoutManager = layoutManager
-        mBinding.recyclerView.setHasFixedSize(true)
-        mBinding.recyclerView.adapter = mAdapter
     }
 
     private fun getData(): ArrayList<String> {
