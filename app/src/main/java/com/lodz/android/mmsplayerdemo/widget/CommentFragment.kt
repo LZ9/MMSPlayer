@@ -1,36 +1,37 @@
 package com.lodz.android.mmsplayerdemo.widget
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.lodz.android.corekt.utils.DateUtils
-import com.lodz.android.mmsplayerdemo.R
+import com.lodz.android.mmsplayerdemo.databinding.FragmentCommentBinding
+import com.lodz.android.pandora.base.fragment.LazyFragment
+import com.lodz.android.pandora.utils.viewbinding.bindingLayout
 import java.util.*
+import kotlin.collections.ArrayList
 
 /**
  * 评论
  * Created by zhouL on 2018/10/24.
  */
-class CommentFragment : Fragment() {
+@SuppressLint("NotifyDataSetChanged")
+class CommentFragment : LazyFragment() {
     companion object {
         fun newInstance(): CommentFragment = CommentFragment()
     }
 
+    private val mBinding: FragmentCommentBinding by bindingLayout(FragmentCommentBinding::inflate)
+
+    override fun getAbsViewBindingLayout(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View = mBinding.root
 
     private lateinit var mAdapter: CommentAdapter
 
-    private lateinit var mRecyclerView: RecyclerView
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-            inflater.inflate(R.layout.fragment_comment, container, false)
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        mRecyclerView = view.findViewById(R.id.recycler_view)
+    override fun findViews(view: View, savedInstanceState: Bundle?) {
+        super.findViews(view, savedInstanceState)
         initRecyclerView()
         mAdapter.setData(getData())
         mAdapter.notifyDataSetChanged()
@@ -40,12 +41,12 @@ class CommentFragment : Fragment() {
         val layoutManager = LinearLayoutManager(context)
         layoutManager.orientation = RecyclerView.VERTICAL
         mAdapter = CommentAdapter(requireContext())
-        mRecyclerView.layoutManager = layoutManager
-        mRecyclerView.setHasFixedSize(true)
-        mRecyclerView.adapter = mAdapter
+        mBinding.recyclerView.layoutManager = layoutManager
+        mBinding.recyclerView.setHasFixedSize(true)
+        mBinding.recyclerView.adapter = mAdapter
     }
 
-    private fun getData(): List<String> {
+    private fun getData(): ArrayList<String> {
         val millis = System.currentTimeMillis()
         val list = ArrayList<String>()
         for (i in 0..50) {

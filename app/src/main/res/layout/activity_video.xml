@@ -51,10 +51,10 @@
         android:layout_height="1dp"
         android:background="@color/colorPrimary" />
 
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/view_pager"
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/vp"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    </androidx.viewpager.widget.ViewPager>
+    </androidx.viewpager2.widget.ViewPager2>
 </LinearLayout>

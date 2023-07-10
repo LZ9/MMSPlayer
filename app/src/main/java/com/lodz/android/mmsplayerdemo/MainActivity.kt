@@ -1,22 +1,21 @@
 package com.lodz.android.mmsplayerdemo
 
 import android.os.Bundle
-import android.widget.Button
+import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
-import com.lodz.android.corekt.anko.bindView
 import com.lodz.android.corekt.anko.getColorCompat
 import com.lodz.android.corekt.anko.toastShort
+import com.lodz.android.mmsplayerdemo.databinding.ActivityMainBinding
 import com.lodz.android.mmsplayerdemo.simple.SimpleVideoActivity
 import com.lodz.android.mmsplayerdemo.widget.VideoActivity
 import com.lodz.android.pandora.base.activity.BaseActivity
+import com.lodz.android.pandora.utils.viewbinding.bindingLayout
 
 class MainActivity : BaseActivity() {
 
-    private val mSimpleBtn by bindView<Button>(R.id.simple_btn)
+    private val mBinding: ActivityMainBinding by bindingLayout(ActivityMainBinding::inflate)
 
-    private val mWidgetBtn by bindView<Button>(R.id.widget_btn)
-
-    override fun getLayoutId(): Int = R.layout.activity_main
+    override fun getViewBindingLayout(): View = mBinding.root
 
     override fun findViews(savedInstanceState: Bundle?) {
         super.findViews(savedInstanceState)
@@ -30,11 +29,11 @@ class MainActivity : BaseActivity() {
             finish()
         }
 
-        mSimpleBtn.setOnClickListener {
+        mBinding.simpleBtn.setOnClickListener {
             mGetContentResult.launch("video/*")
         }
 
-        mWidgetBtn.setOnClickListener {
+        mBinding.widgetBtn.setOnClickListener {
             VideoActivity.start(this, getString(R.string.info_name), "http://vd3.bdstatic.com/mda-nkdksvz89kgvez0j/360p/h264/1668436838593889961/mda-nkdksvz89kgvez0j.mp4")
         }
     }
