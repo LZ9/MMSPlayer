@@ -34,7 +34,7 @@ android {
 }
 
 dependencies {
-    implementation 'ink.lodz:pandora:2.0.4'
+    implementation 'ink.lodz:pandora:2.0.6'
 
     implementation project(':mmsplayer')
 //    implementation 'ink.lodz:mmsplayer:1.1.1'
